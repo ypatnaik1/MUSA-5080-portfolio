@@ -16,9 +16,7 @@ urban policy questions.
 ## About Me
 
 
-
-I'm a student in the MUSA program at Penn. My background is in
-GIS, and I'm interested in sustainability and transportation.
+I’m a student in the MUSA program at Penn. My background is in GIS, and I’m interested in sustainability and transportation. I enjoy using spatial data to better understand how cities function and how people interact with the built environment. I’m particularly interested in how GIS and data analysis can help address transportation and environmental challenges. Through the MUSA program, I hope to strengthen my technical and analytical skills while applying them to real-world urban issues. Ultimately, I’d like to use these skills to help make cities more sustainable, accessible, and efficient.
 
 ## What You'll Find Here
 
