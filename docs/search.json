@@ -39,7 +39,7 @@
     "href": "weekly-notes/index.html",
     "title": "Weekly Notes",
     "section": "",
-    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Census Data\n\n\n\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\n\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -114,8 +114,8 @@
   {
     "objectID": "weekly-notes/week-02.html",
     "href": "weekly-notes/week-02.html",
-    "title": "Week 2: Census Data",
+    "title": "Week 2: dplyr and Census Data",
     "section": "",
-    "text": "hello"
+    "text": "NOTES #result &lt;- filter(counties, population&gt;50000) #keep the big ones! “result” is the object “&lt;-” is an assignment arrow “filter” is the function name (a verb) “counties” is the input data “population &gt;50000” is the argument"
   }
 ]
