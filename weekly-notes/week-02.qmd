@@ -9,22 +9,25 @@ format: html
 #result <- filter(counties, population>50000) #keep the big ones!
 #"result" is the object 
 
-#"<-" is an assignment arrow 
+"<-" is an assignment arrow 
 
-#"filter" is the function name (a verb) 
+"filter" is the function name (a verb) 
 --
-#"counties" is the input data
+"counties" is the input data
 --
-#"population >50000" is the argument
+"population >50000" is the argument
 
-#install.packages("packagename")
-#library("packagename")
+install.packages("packagename")
+library("packagename")
 
-#filter()--> this picks rows. r in filter is for r as in rows
-#select() --> this picks columns. c in select is for c as in columns
-#mutate()--> adding a new computed column
-#arrange()--> change order of rows i.e. asc, desc
+filter()--> this picks rows. r in filter is for r as in rows
+select() --> this picks columns. c in select is for c as in columns
+mutate()--> adding a new computed column
+arrange()--> change order of rows i.e. asc, desc
+group_by() + --> many rows become few
+summarize()
+
+
 #new <- mutate(counties, income2)
-
 
 

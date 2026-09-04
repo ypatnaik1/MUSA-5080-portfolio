@@ -116,20 +116,20 @@
     "href": "weekly-notes/week-02.html",
     "title": "Week 2: dplyr and Census Data",
     "section": "",
-    "text": "##NOTES\n#result &lt;- filter(counties, population&gt;50000) #keep the big ones! #“result” is the object\n#“&lt;-” is an assignment arrow"
+    "text": "##NOTES\n#result &lt;- filter(counties, population&gt;50000) #keep the big ones! #“result” is the object\n“&lt;-” is an assignment arrow"
   },
   {
     "objectID": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
     "href": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
     "title": "Week 2: dplyr and Census Data",
-    "section": "#“filter” is the function name (a verb)",
-    "text": "#“filter” is the function name (a verb)"
+    "section": "“filter” is the function name (a verb)",
+    "text": "“filter” is the function name (a verb)"
   },
   {
     "objectID": "weekly-notes/week-02.html#counties-is-the-input-data",
     "href": "weekly-notes/week-02.html#counties-is-the-input-data",
     "title": "Week 2: dplyr and Census Data",
-    "section": "#“counties” is the input data",
-    "text": "#“counties” is the input data\n#“population &gt;50000” is the argument\n#install.packages(“packagename”) #library(“packagename”)\n#filter()–&gt; this picks rows. r in filter is for r as in rows #select() –&gt; this picks columns. c in select is for c as in columns #mutate()–&gt; adding a new computed column #arrange()–&gt; change order of rows i.e. asc, desc #new &lt;- mutate(counties, income2)"
+    "section": "“counties” is the input data",
+    "text": "“counties” is the input data\n“population &gt;50000” is the argument\ninstall.packages(“packagename”) library(“packagename”)\nfilter()–&gt; this picks rows. r in filter is for r as in rows select() –&gt; this picks columns. c in select is for c as in columns mutate()–&gt; adding a new computed column arrange()–&gt; change order of rows i.e. asc, desc group_by() + –&gt; many rows become few summarize()\n#new &lt;- mutate(counties, income2)"
   }
 ]
