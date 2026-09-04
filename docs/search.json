@@ -116,6 +116,6 @@
     "href": "weekly-notes/week-02.html",
     "title": "Week 2: dplyr and Census Data",
     "section": "",
-    "text": "NOTES #result &lt;- filter(counties, population&gt;50000) #keep the big ones! “result” is the object “&lt;-” is an assignment arrow “filter” is the function name (a verb) “counties” is the input data “population &gt;50000” is the argument"
+    "text": "NOTES #result &lt;- filter(counties, population&gt;50000) #keep the big ones! “result” is the object “&lt;-” is an assignment arrow “filter” is the function name (a verb) “counties” is the input data “population &gt;50000” is the argument\npacka"
   }
 ]
