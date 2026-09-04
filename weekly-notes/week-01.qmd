@@ -38,5 +38,3 @@ I am someone who has been trying my best to avoid coding at all costs for a majo
 However, as I completed my GIS degree, I realized how critical coding was, even if it didn't take up a 
 majority of how I completed my work. I am nervous to jump in the deep end of using R, but also excited about learning about the course material, especially creating prediction models.
 
--
--

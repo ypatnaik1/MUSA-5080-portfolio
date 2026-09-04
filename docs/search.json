@@ -39,7 +39,7 @@
     "href": "weekly-notes/index.html",
     "title": "Weekly Notes",
     "section": "",
-    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\n\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -116,6 +116,20 @@
     "href": "weekly-notes/week-02.html",
     "title": "Week 2: dplyr and Census Data",
     "section": "",
-    "text": "NOTES #result &lt;- filter(counties, population&gt;50000) #keep the big ones! “result” is the object “&lt;-” is an assignment arrow “filter” is the function name (a verb) “counties” is the input data “population &gt;50000” is the argument\npacka"
+    "text": "##NOTES\n#result &lt;- filter(counties, population&gt;50000) #keep the big ones! #“result” is the object\n#“&lt;-” is an assignment arrow"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
+    "href": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
+    "title": "Week 2: dplyr and Census Data",
+    "section": "#“filter” is the function name (a verb)",
+    "text": "#“filter” is the function name (a verb)"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#counties-is-the-input-data",
+    "href": "weekly-notes/week-02.html#counties-is-the-input-data",
+    "title": "Week 2: dplyr and Census Data",
+    "section": "#“counties” is the input data",
+    "text": "#“counties” is the input data\n#“population &gt;50000” is the argument\n#install.packages(“packagename”) #library(“packagename”)\n#filter()–&gt; this picks rows. r in filter is for r as in rows #select() –&gt; this picks columns. c in select is for c as in columns #mutate()–&gt; adding a new computed column #arrange()–&gt; change order of rows i.e. asc, desc #new &lt;- mutate(counties, income2)"
   }
 ]
