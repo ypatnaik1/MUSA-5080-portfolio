@@ -1,33 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Home",
-    "section": "",
-    "text": "Welcome to my portfolio for MUSA 5080: Public Policy Analytics at the University of Pennsylvania.\nThis site documents my work in the Master of Urban Spatial Analytics program — weekly notes, course assignments, and a final project applying data analysis to urban policy questions.\n\n\nI’m a student in the MUSA program at Penn. My background is in GIS, and I’m interested in sustainability and transportation. I enjoy using spatial data to better understand how cities function and how people interact with the built environment. I’m particularly interested in how GIS and data analysis can help address transportation and environmental challenges. Through the MUSA program, I hope to strengthen my technical and analytical skills while applying them to real-world urban issues. Ultimately, I’d like to use these skills to help make cities more sustainable, accessible, and efficient.\n\n\n\n\nWeekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me\n\n\n\n\n\n\nEmail: ypatnaik@upenn.edu\nGitHub: [@ypatnaik1](https://github.com/ypatnaik1"
-  },
-  {
-    "objectID": "index.html#about-me",
-    "href": "index.html#about-me",
-    "title": "Home",
-    "section": "",
-    "text": "I’m a student in the MUSA program at Penn. My background is in GIS, and I’m interested in sustainability and transportation. I enjoy using spatial data to better understand how cities function and how people interact with the built environment. I’m particularly interested in how GIS and data analysis can help address transportation and environmental challenges. Through the MUSA program, I hope to strengthen my technical and analytical skills while applying them to real-world urban issues. Ultimately, I’d like to use these skills to help make cities more sustainable, accessible, and efficient."
-  },
-  {
-    "objectID": "index.html#what-youll-find-here",
-    "href": "index.html#what-youll-find-here",
-    "title": "Home",
-    "section": "",
-    "text": "Weekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me"
-  },
-  {
-    "objectID": "index.html#get-in-touch",
-    "href": "index.html#get-in-touch",
-    "title": "Home",
-    "section": "",
-    "text": "Email: ypatnaik@upenn.edu\nGitHub: [@ypatnaik1](https://github.com/ypatnaik1"
-  },
-  {
     "objectID": "weekly-notes/week-01.html",
     "href": "weekly-notes/week-01.html",
     "title": "Week 1: Getting Set Up",
@@ -63,11 +35,11 @@
     "text": "Reflection\n\nI am someone who has been trying my best to avoid coding at all costs for a major portion of my life. However, as I completed my GIS degree, I realized how critical coding was, even if it didn’t take up a majority of how I completed my work. I am nervous to jump in the deep end of using R, but also excited about learning about the course material, especially creating prediction models."
   },
   {
-    "objectID": "weekly-notes/week-01.html#questions-i-still-have",
-    "href": "weekly-notes/week-01.html#questions-i-still-have",
-    "title": "Week 1: Getting Set Up",
-    "section": "Questions I Still Have",
-    "text": "Questions I Still Have"
+    "objectID": "weekly-notes/index.html",
+    "href": "weekly-notes/index.html",
+    "title": "Weekly Notes",
+    "section": "",
+    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 2: Census Data\n\n\n\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -102,14 +74,35 @@
     "href": "assignments/index.html",
     "title": "Assignments",
     "section": "",
-    "text": "Completed assignments for MUSA 5080. New assignments appear here automatically once you add the .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Completed assignments for MUSA 5080. New assignments appear here automatically once you add the .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "weekly-notes/index.html",
-    "href": "weekly-notes/index.html",
-    "title": "Weekly Notes",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
     "section": "",
-    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\n\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my portfolio for MUSA 5080: Public Policy Analytics at the University of Pennsylvania.\nThis site documents my work in the Master of Urban Spatial Analytics program — weekly notes, course assignments, and a final project applying data analysis to urban policy questions.\n\n\nI’m a student in the MUSA program at Penn. My background is in GIS, and I’m interested in sustainability and transportation. I enjoy using spatial data to better understand how cities function and how people interact with the built environment. I’m particularly interested in how GIS and data analysis can help address transportation and environmental challenges. Through the MUSA program, I hope to strengthen my technical and analytical skills while applying them to real-world urban issues. Ultimately, I’d like to use these skills to help make cities more sustainable, accessible, and efficient.\n\n\n\n\nWeekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me\n\n\n\n\n\n\nEmail: ypatnaik@upenn.edu\nGitHub: [@ypatnaik1](https://github.com/ypatnaik1"
+  },
+  {
+    "objectID": "index.html#about-me",
+    "href": "index.html#about-me",
+    "title": "Home",
+    "section": "",
+    "text": "I’m a student in the MUSA program at Penn. My background is in GIS, and I’m interested in sustainability and transportation. I enjoy using spatial data to better understand how cities function and how people interact with the built environment. I’m particularly interested in how GIS and data analysis can help address transportation and environmental challenges. Through the MUSA program, I hope to strengthen my technical and analytical skills while applying them to real-world urban issues. Ultimately, I’d like to use these skills to help make cities more sustainable, accessible, and efficient."
+  },
+  {
+    "objectID": "index.html#what-youll-find-here",
+    "href": "index.html#what-youll-find-here",
+    "title": "Home",
+    "section": "",
+    "text": "Weekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me"
+  },
+  {
+    "objectID": "index.html#get-in-touch",
+    "href": "index.html#get-in-touch",
+    "title": "Home",
+    "section": "",
+    "text": "Email: ypatnaik@upenn.edu\nGitHub: [@ypatnaik1](https://github.com/ypatnaik1"
   },
   {
     "objectID": "data/readme.html",
