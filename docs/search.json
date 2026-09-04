@@ -116,7 +116,7 @@
     "href": "weekly-notes/week-02.html",
     "title": "Week 2: dplyr and Census Data",
     "section": "",
-    "text": "##NOTES\nresult &lt;- filter(counties, population&gt;50000) #keep the big ones! “result” is the object “&lt;-” is an assignment arrow “filter” is the function name (a verb) “counties” is the input data “population &gt;50000” is the argument\ninstall.packages(“packagename”) library(“packagename”) filter()–&gt; this picks rows. r in filter is for r as in rows select() –&gt; this picks columns. c in select is for c as in columns mutate()–&gt; adding a new computed column new &lt;- mutate(counties, income2)\narrange()–&gt; change order of rows i.e. asc, desc group_by() + –&gt; many rows become few summarize()\ncolumns, variables data frame = tibble (nicer, prints prettier)"
+    "text": "##NOTES\nresult &lt;- filter(counties, population&gt;50000) #keep the big ones!\n“result” is the object\n“&lt;-” is an assignment arrow\n“filter” is the function name (a verb)\n“counties” is the input data\n“population &gt;50000” is the argument\ninstall.packages(“packagename”)\nlibrary(“packagename”)\nfilter()–&gt; this picks rows. r in filter is for r as in rows\nselect() –&gt; this picks columns. c in select is for c as in columns\nmutate()–&gt; adding a new computed column\nnew &lt;- mutate(counties, income2)\narrange()–&gt; change order of rows i.e. asc, desc\ngroup_by() + –&gt; many rows become few\nsummarize()\ncolumns, variables data frame = tibble (nicer, prints prettier)\nstep 1 &lt;- filter (counties, moe_pct &gt; 10)\nstep 2 &lt;- arrange (step1, desc(moe_pct))\nstep 3&lt;- select(NAME, moe_pct))"
   },
   {
     "objectID": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
