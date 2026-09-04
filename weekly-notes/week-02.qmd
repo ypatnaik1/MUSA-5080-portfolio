@@ -4,7 +4,7 @@ description: "Learning more about how to use R script and using dplyr in R"
 date: "September 4, 2026"
 format: html
 ---
-##NOTES
+# NOTES
 
 result <- filter(counties, population>50000) #keep the big ones!
 
@@ -22,15 +22,15 @@ install.packages("packagename")
 
 library("packagename")
 
-filter()--> this picks rows. r in filter is for r as in rows
+filter() -- this picks rows. r in filter is for r as in rows
 
-select() --> this picks columns. c in select is for c as in columns
+select() -- this picks columns. c in select is for c as in columns
 
-mutate()--> adding a new computed column
+mutate() --  adding a new computed column
 
 new <- mutate(counties, income2)
 
-arrange()--> change order of rows i.e. asc, desc
+arrange()-- change order of rows i.e. asc, desc
 
 group_by() + --> many rows become few
 
@@ -46,6 +46,92 @@ step 3<- select(NAME, moe_pct))
 
 that's what a novice does,
 
-use the pipe method
+## The Pipe
 
+"and then"
 
+  %>% or |>
+  
+new_data <- counties %>%
+              filter(moe_pct>10)%>%
+              arrange(desc(moe_pct))%>%
+              select(NAME, moe_pct))%>%
+              
+The pipe is basically saying from counties do this and then this and then this (the result is passed down) and saving it to the data frame in one smooth function, instead of having the 3 steps listed above. 
+  
+## Decennial Census
+Long form census
+
+10 years, 10 questions
+
+## American Community Survey (ACS)
+
+Since 2005  
+Surveys 3% of households  
+Used to estimate population 
+
+1 year ACS -- places>65,000 -- most current
+
+3 year ACS -- no longer used
+
+5 year ACS -- Block group and census tracts
+
+"2016" 5-year average +- MoE
+
+## Reading census data
+
+B19103_001E
+B = base table
+19013 = table number
+001 = line number
+E = Estimate M = margin of error
+load_variables()
+
+state - > county ->tract ---- "neighborhood" 
+
+Tracts have 5 to 8,000 people
+  - Boundaries change
+  - nice people -- longitudinal tracts
+        -- NHGIS
+        -- LTDR
+        
+Block groups
+  HIGH MOEs
+Block - Decemial Only
+
+## GeoID
+ex.
+421010001001
+state = 42
+county = 101 
+tract = 0001001
+(11 digits)
+
+"save the zeroes"
+
+data<get_acs (geography = " county",
+              variables = c("b19013_001,
+                            "b01003_001),
+              state = "PA",
+              year = 2023,
+              survey = "acs5"
+              output = "wide"
+                )
+              
+  
+c = concatenate
+year -- 2023, 5 years ending in 2023  
+acs5 = 5 year ACS
+
+TIDY(Long)
+
+| geoid | name  | variable   | estimate | moe  |
+|------:|-------|------------|---------:|-----:|
+| 42001 | adams | B19103_001 | 78975    | 3334 |
+| 42001 | adams | B01003_001 | 104605   | NA   |
+
+wide format
+
+|geoid | name | B19013_001E | M
+|-----:|------:|-----:|-----:|
+||Adams|78975|3334|

@@ -116,20 +116,41 @@
     "href": "weekly-notes/week-02.html",
     "title": "Week 2: dplyr and Census Data",
     "section": "",
-    "text": "##NOTES\nresult &lt;- filter(counties, population&gt;50000) #keep the big ones!\n“result” is the object\n“&lt;-” is an assignment arrow\n“filter” is the function name (a verb)\n“counties” is the input data\n“population &gt;50000” is the argument\ninstall.packages(“packagename”)\nlibrary(“packagename”)\nfilter()–&gt; this picks rows. r in filter is for r as in rows\nselect() –&gt; this picks columns. c in select is for c as in columns\nmutate()–&gt; adding a new computed column\nnew &lt;- mutate(counties, income2)\narrange()–&gt; change order of rows i.e. asc, desc\ngroup_by() + –&gt; many rows become few\nsummarize()\ncolumns, variables data frame = tibble (nicer, prints prettier)\nstep 1 &lt;- filter (counties, moe_pct &gt; 10)\nstep 2 &lt;- arrange (step1, desc(moe_pct))\nstep 3&lt;- select(NAME, moe_pct))"
+    "text": "result &lt;- filter(counties, population&gt;50000) #keep the big ones!\n“result” is the object\n“&lt;-” is an assignment arrow\n“filter” is the function name (a verb)\n“counties” is the input data\n“population &gt;50000” is the argument\ninstall.packages(“packagename”)\nlibrary(“packagename”)\nfilter() – this picks rows. r in filter is for r as in rows\nselect() – this picks columns. c in select is for c as in columns\nmutate() – adding a new computed column\nnew &lt;- mutate(counties, income2)\narrange()– change order of rows i.e. asc, desc\ngroup_by() + –&gt; many rows become few\nsummarize()\ncolumns, variables data frame = tibble (nicer, prints prettier)\nstep 1 &lt;- filter (counties, moe_pct &gt; 10)\nstep 2 &lt;- arrange (step1, desc(moe_pct))\nstep 3&lt;- select(NAME, moe_pct))\nthat’s what a novice does,\n\n\n“and then”\n%&gt;% or |&gt;\nnew_data &lt;- counties %&gt;% filter(moe_pct&gt;10)%&gt;% arrange(desc(moe_pct))%&gt;% select(NAME, moe_pct))%&gt;%\nThe pipe is basically saying from counties do this and then this and then this (the result is passed down) and saving it to the data frame in one smooth function, instead of having the 3 steps listed above.\n\n\n\nLong form census\n10 years, 10 questions\n\n\n\nSince 2005\nSurveys 3% of households\nUsed to estimate population\n1 year ACS – places&gt;65,000 – most current\n3 year ACS – no longer used\n5 year ACS – Block group and census tracts\n“2016” 5-year average +- MoE\n\n\n\nB19103_001E B = base table 19013 = table number 001 = line number E = Estimate M = margin of error load_variables()\nstate - &gt; county -&gt;tract —- “neighborhood”\nTracts have 5 to 8,000 people - Boundaries change - nice people – longitudinal tracts – NHGIS – LTDR\nBlock groups HIGH MOEs Block - Decemial Only\n\n\n\nex. 421010001001 state = 42 county = 101 tract = 0001001 (11 digits)\n“save the zeroes”\ndata&lt;get_acs (geography = ” county”, variables = c(“b19013_001,”b01003_001), state = “PA”, year = 2023, survey = “acs5” output = “wide” )\nc = concatenate year – 2023, 5 years ending in 2023\nacs5 = 5 year ACS\nTIDY(Long)\n\n\n\ngeoid\nname\nvariable\nestimate\nmoe\n\n\n\n\n42001\nadams\nB19103_001\n78975\n3334\n\n\n42001\nadams\nB01003_001\n104605\nNA\n\n\n\nwide format\n\n\n\ngeoid\nname\nB19013_001E\nM\n\n\n\n\n\nAdams\n78975\n3334"
   },
   {
-    "objectID": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
-    "href": "weekly-notes/week-02.html#filter-is-the-function-name-a-verb",
+    "objectID": "weekly-notes/week-02.html#the-pipe",
+    "href": "weekly-notes/week-02.html#the-pipe",
     "title": "Week 2: dplyr and Census Data",
-    "section": "“filter” is the function name (a verb)",
-    "text": "“filter” is the function name (a verb)"
+    "section": "",
+    "text": "“and then”\n%&gt;% or |&gt;\nnew_data &lt;- counties %&gt;% filter(moe_pct&gt;10)%&gt;% arrange(desc(moe_pct))%&gt;% select(NAME, moe_pct))%&gt;%\nThe pipe is basically saying from counties do this and then this and then this (the result is passed down) and saving it to the data frame in one smooth function, instead of having the 3 steps listed above."
   },
   {
-    "objectID": "weekly-notes/week-02.html#counties-is-the-input-data",
-    "href": "weekly-notes/week-02.html#counties-is-the-input-data",
+    "objectID": "weekly-notes/week-02.html#decennial-census",
+    "href": "weekly-notes/week-02.html#decennial-census",
     "title": "Week 2: dplyr and Census Data",
-    "section": "“counties” is the input data",
-    "text": "“counties” is the input data\n“population &gt;50000” is the argument\ninstall.packages(“packagename”) library(“packagename”)\nfilter()–&gt; this picks rows. r in filter is for r as in rows select() –&gt; this picks columns. c in select is for c as in columns mutate()–&gt; adding a new computed column arrange()–&gt; change order of rows i.e. asc, desc group_by() + –&gt; many rows become few summarize()\n#new &lt;- mutate(counties, income2)"
+    "section": "",
+    "text": "Long form census\n10 years, 10 questions"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#american-community-survey-acs",
+    "href": "weekly-notes/week-02.html#american-community-survey-acs",
+    "title": "Week 2: dplyr and Census Data",
+    "section": "",
+    "text": "Since 2005\nSurveys 3% of households\nUsed to estimate population\n1 year ACS – places&gt;65,000 – most current\n3 year ACS – no longer used\n5 year ACS – Block group and census tracts\n“2016” 5-year average +- MoE"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#reading-census-data",
+    "href": "weekly-notes/week-02.html#reading-census-data",
+    "title": "Week 2: dplyr and Census Data",
+    "section": "",
+    "text": "B19103_001E B = base table 19013 = table number 001 = line number E = Estimate M = margin of error load_variables()\nstate - &gt; county -&gt;tract —- “neighborhood”\nTracts have 5 to 8,000 people - Boundaries change - nice people – longitudinal tracts – NHGIS – LTDR\nBlock groups HIGH MOEs Block - Decemial Only"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#geoid",
+    "href": "weekly-notes/week-02.html#geoid",
+    "title": "Week 2: dplyr and Census Data",
+    "section": "",
+    "text": "ex. 421010001001 state = 42 county = 101 tract = 0001001 (11 digits)\n“save the zeroes”\ndata&lt;get_acs (geography = ” county”, variables = c(“b19013_001,”b01003_001), state = “PA”, year = 2023, survey = “acs5” output = “wide” )\nc = concatenate year – 2023, 5 years ending in 2023\nacs5 = 5 year ACS\nTIDY(Long)\n\n\n\ngeoid\nname\nvariable\nestimate\nmoe\n\n\n\n\n42001\nadams\nB19103_001\n78975\n3334\n\n\n42001\nadams\nB01003_001\n104605\nNA\n\n\n\nwide format\n\n\n\ngeoid\nname\nB19013_001E\nM\n\n\n\n\n\nAdams\n78975\n3334"
   }
 ]
