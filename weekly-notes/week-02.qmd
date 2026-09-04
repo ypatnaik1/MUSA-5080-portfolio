@@ -18,11 +18,15 @@ library("packagename")
 filter()--> this picks rows. r in filter is for r as in rows
 select() --> this picks columns. c in select is for c as in columns
 mutate()--> adding a new computed column
+new <- mutate(counties, income2)
+
 arrange()--> change order of rows i.e. asc, desc
 group_by() + --> many rows become few
 summarize()
 
+columns, variables data frame = tibble (nicer, prints prettier)
 
-#new <- mutate(counties, income2)
+
+
 
 
