@@ -40,7 +40,7 @@ columns, variables data frame = tibble (nicer, prints prettier)
 
 step 1 <- filter (counties, moe_pct > 10)
 
-step 2 <- arrange (step1, desc(moe_pct))
+step 2 <- arrange (desc(moe_pct))
 
 step 3<- select(NAME, moe_pct))
 

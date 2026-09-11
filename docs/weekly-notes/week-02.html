@@ -233,7 +233,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>summarize()</p>
 <p>columns, variables data frame = tibble (nicer, prints prettier)</p>
 <p>step 1 &lt;- filter (counties, moe_pct &gt; 10)</p>
-<p>step 2 &lt;- arrange (step1, desc(moe_pct))</p>
+<p>step 2 &lt;- arrange (desc(moe_pct))</p>
 <p>step 3&lt;- select(NAME, moe_pct))</p>
 <p>that’s what a novice does,</p>
 <section id="the-pipe" class="level2">
@@ -820,7 +820,7 @@ acs5 = 5 year ACS</p>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>step 1 &lt;- filter (counties, moe_pct &gt; 10)</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>step 2 &lt;- arrange (step1, desc(moe_pct))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>step 2 &lt;- arrange (desc(moe_pct))</span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>step 3&lt;- select(NAME, moe_pct))</span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
