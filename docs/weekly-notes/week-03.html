@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Running notes from MUSA 5080.">
 
-<title>Weekly Notes – Yogi Patnaik - MUSA 5080 Portfolio</title>
+<title>Week 3 – Yogi Patnaik - MUSA 5080 Portfolio</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -72,8 +71,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -111,35 +108,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-date','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -199,7 +167,7 @@ window.Quarto = {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../weekly-notes/index.html" aria-current="page"> 
+    <a class="nav-link" href="../weekly-notes/index.html"> 
 <span class="menu-text">Weekly Notes</span></a>
   </li>  
   <li class="nav-item">
@@ -224,22 +192,27 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ansombes-quartet" id="toc-ansombes-quartet" class="nav-link active" data-scroll-target="#ansombes-quartet">Ansombe’s Quartet</a>
+  <ul class="collapse">
+  <li><a href="#derived-uncertainty" id="toc-derived-uncertainty" class="nav-link" data-scroll-target="#derived-uncertainty">Derived Uncertainty</a></li>
+  <li><a href="#the-maths-the-standard-error-of-difference" id="toc-the-maths-the-standard-error-of-difference" class="nav-link" data-scroll-target="#the-maths-the-standard-error-of-difference">The Maths: The Standard Error of Difference</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Weekly Notes</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Week 3</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
-<div>
-  <div class="description">
-    Running notes from MUSA 5080.
-  </div>
-</div>
 
 
 <div class="quarto-title-meta">
@@ -254,80 +227,106 @@ window.Quarto = {
 </header>
 
 
-<p>Notes from each week of MUSA 5080. New entries appear here automatically — add a <code>.qmd</code> file to this folder and render.</p>
-
+<section id="ansombes-quartet" class="level2">
+<h2 class="anchored" data-anchor-id="ansombes-quartet">Ansombe’s Quartet</h2>
+<p>The Ansombe’s Quartet is a set of 4 different appearing plots that have the same mean x and y, the same regression line, and the same correlation factor.</p>
+<p>Plot is a mapping from columns in your data to visual properties on your page. (“Grammar of Graphics”) aka gg like from ggplot.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Your Data</th>
+<th>Page (Canvas)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>estimate</td>
+<td>→ position on y-axis</td>
+</tr>
+<tr class="even">
+<td>population</td>
+<td>→ position on x-axis</td>
+</tr>
+</tbody>
+</table>
+<p>p &lt;- 1. ggplot(the data you’re using) —&gt; creates a blank canvas</p>
+<p>aes(…) Aesthetic Mappings.</p>
+<p>geom_*(…) the shape/type of chart e.g.</p>
+<p>ggplot(tract_data) +</p>
+<p>aes(x= population, y = moe_pct) +</p>
+<p>geom_point()</p>
+<p>ggplot(county_data) +</p>
+<p>aes(x=estimate,y=population)+</p>
+<p>geom_point(color=“blue”)</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>inside aes()</th>
+<th>not inside</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>aes(color=reliability)</td>
+<td>geom_point(“blue”) - decorations</td>
+</tr>
+</tbody>
+</table>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>What I want to know</th>
+<th>GEOM</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>How a variable is spread?</td>
+<td>geom_histogram()</td>
+</tr>
+<tr class="even">
+<td>How do two variables relate?</td>
+<td>geom_point()</td>
+</tr>
+<tr class="odd">
+<td>How do groups compare?</td>
+<td>geom_boxplot()</td>
+</tr>
+<tr class="even">
+<td>How do things change over time?</td>
+<td>geom_line()</td>
+</tr>
+<tr class="odd">
+<td>How uncertain is a value?</td>
+<td>geom_errorbar()</td>
+</tr>
+</tbody>
+</table>
+<p>LOW: <em>/ MED: </em>__ HIGH: ///</p>
+<p>Coefficient of Variation (CV) - Relative measure of sampling error - <strong>Standard error / estimate * 100</strong> - SE: 90%, MOE: 1.645 - 10,000 - Low CV 15% – high reliability - Medium- 15-30% - - High- 30% High sampling error</p>
+<section id="derived-uncertainty" class="level3">
+<h3 class="anchored" data-anchor-id="derived-uncertainty">Derived Uncertainty</h3>
+<p>Poverty Rate = # in Poverty +- MOE / Total Population +- MOE moe_sum()-&gt; adding estimates together moe_prop()-&gt; one estimate as share of another moe_ratio()-&gt; Poverty / Income One not a subset of another</p>
+<p>Change over time The overlapping intervals e.g.&nbsp;2019-2023, 2018-2022</p>
+<p>We need to compare non-overlapping intervals</p>
+<p>e.g. <span class="math inline">\(2014-2018 45000 \pm 8,000\)</span></p>
+<p><span class="math inline">\(2019-2023 62000 \pm 11,000\)</span></p>
+<p>MOE = 17,000?</p>
+</section>
+<section id="the-maths-the-standard-error-of-difference" class="level3">
+<h3 class="anchored" data-anchor-id="the-maths-the-standard-error-of-difference">The Maths: The Standard Error of Difference</h3>
+<p><span class="math inline">\(SEdiff = \sqrt{SE_1 ^2 + SE_2^2}\)</span></p>
+<p><span class="math inline">\(z = (est_1 - est_2) / SEdiff\)</span></p>
+<p>Confidence Interval of Change</p>
+<p><span class="math inline">\(difference \pm(1.645*SEdiff)\)</span></p>
 
 
 <!-- -->
 
+</section>
+</section>
 
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1789131966784" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../weekly-notes/Untitled.html" class="no-external">week-03</a>
-</h3>
-<div class="delink listing-description"><a href="../weekly-notes/Untitled.html" class="no-external">
-
-</a></div>
-</div>
-<div class="metadata">
-<a href="../weekly-notes/Untitled.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-listing-file-modified-sort="1789139763052" data-listing-reading-time-sort="2" data-listing-word-count-sort="300">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../weekly-notes/week-03.html" class="no-external">Week 3</a>
-</h3>
-<div class="delink listing-description"><a href="../weekly-notes/week-03.html" class="no-external">
-The Ansombe’s Quartet is a set of 4 different appearing plots that have the same mean x and y, the same regression line, and the same correlation factor.
-</a></div>
-</div>
-<div class="metadata">
-<a href="../weekly-notes/week-03.html" class="no-external">
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1788494400000" data-listing-file-modified-sort="1789107068351" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="558">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../weekly-notes/week-02.html" class="no-external">Week 2: dplyr and Census Data</a>
-</h3>
-<div class="delink listing-description"><a href="../weekly-notes/week-02.html" class="no-external">
-<p>Learning more about how to use R script and using dplyr in R</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="../weekly-notes/week-02.html" class="no-external">
-<div class="listing-date">
-Sep 4, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1787889600000" data-listing-file-modified-sort="1788530898023" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="237">
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../weekly-notes/week-01.html" class="no-external">Week 1: Getting Set Up</a>
-</h3>
-<div class="delink listing-description"><a href="../weekly-notes/week-01.html" class="no-external">
-<p>First impressions, and getting the workflow running.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="../weekly-notes/week-01.html" class="no-external">
-<div class="listing-date">
-Aug 28, 2026
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -780,19 +779,104 @@ Aug 28, 2026
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Weekly Notes"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Running notes from MUSA 5080."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">listing:</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  contents: "*.qmd"</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  sort: "date desc"</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">  type: default</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">  fields: [title, date, description]</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">  sort-ui: false</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">  filter-ui: false</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Week 3"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Ansombe's Quartet</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>The Ansombe's Quartet is a set of 4 different appearing plots that have the same mean x and y, the same regression line, and the same correlation factor.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Plot is a mapping from columns in your data to visual properties on your page. </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>("Grammar of Graphics") aka gg like from ggplot.</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>Notes from each week of MUSA 5080. New entries appear here automatically —</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>add a <span class="in">`.qmd`</span> file to this folder and render.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>Your Data<span class="pp">|</span>Page (Canvas)<span class="pp">|</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="pp">|------|---------|</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> estimate   <span class="pp">|</span> → position on y-axis  <span class="pp">|</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> population <span class="pp">|</span> → position on x-axis  <span class="pp">|</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>p &lt;- 1. ggplot(the data you're using) ---&gt; creates a blank canvas</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>aes(...) Aesthetic Mappings. </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>geom_*(...) the shape/type of chart </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>e.g.</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  ggplot(tract_data) +</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>aes(x= population, y = moe_pct) +</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>   geom_point()</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>ggplot(county_data) +</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  aes(x=estimate,y=population)+</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  geom_point(color="blue")</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>inside aes()<span class="pp">|</span>not inside<span class="pp">|</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|---------|---------|</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>aes(color=reliability)<span class="pp">|</span>geom_point("blue") - decorations<span class="pp">|</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>What I want to know<span class="pp">|</span>GEOM<span class="pp">|</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----|-----|</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>How a variable is spread?<span class="pp">|</span>geom_histogram()<span class="pp">|</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>How do two variables relate?<span class="pp">|</span>geom_point()<span class="pp">|</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>How do groups compare?<span class="pp">|</span>geom_boxplot()<span class="pp">|</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>How do things change over time?<span class="pp">|</span>geom_line()<span class="pp">|</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span>How uncertain is a value?<span class="pp">|</span>geom_errorbar()<span class="pp">|</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>LOW: _/</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>MED: ___</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>HIGH: ///</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>Coefficient of Variation (CV)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Relative measure of sampling error</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>**Standard error / estimate * 100**</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>SE: 90%, MOE: 1.645</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>10,000</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Low CV 15% -- high reliability</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>Medium- 15-30% - </span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="ss">    - </span>High- 30% High sampling error</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="fu">### Derived Uncertainty</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>Poverty Rate = # in Poverty +- MOE / Total Population +- MOE</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>moe_sum()-&gt; adding estimates together</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>moe_prop()-&gt; one estimate as share of another</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>moe_ratio()-&gt; Poverty / Income One not a subset of another</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>Change over time</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>The overlapping intervals</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>e.g. 2019-2023, 2018-2022</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>We need to compare non-overlapping intervals</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>e.g.</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>$2014-2018 45000 \pm 8,000$</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>$2019-2023 62000 \pm 11,000$</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>MOE = 17,000?</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Maths: The Standard Error of Difference</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>$SEdiff = \sqrt{SE_1 ^2 + SE_2^2}$</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>$z = (est_1 - est_2) / SEdiff$</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a>Confidence Interval of Change</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>$difference \pm(1.645*SEdiff)$</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
