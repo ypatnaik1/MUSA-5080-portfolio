@@ -8,79 +8,63 @@ date: "September 11, 2026"
 
 The Ansombe's Quartet is a set of 4 different appearing plots that have the same mean x and y, the same regression line, and the same correlation factor.
 
-Plot is a mapping from columns in your data to visual properties on your page. 
-("Grammar of Graphics") aka gg like from ggplot.
+Plot is a mapping from columns in your data to visual properties on your page. ("Grammar of Graphics") aka gg like from ggplot.
 
+| Your Data  | Page (Canvas)        |
+|------------|----------------------|
+| estimate   | → position on y-axis |
+| population | → position on x-axis |
 
-|Your Data|Page (Canvas)|
-|------|---------|
-| estimate   | → position on y-axis  |
-| population | → position on x-axis  |
+p \<- 1. ggplot(the data you're using) ---\> creates a blank canvas
 
-p <- 1. ggplot(the data you're using) ---> creates a blank canvas
+aes(...) Aesthetic Mappings.
 
-aes(...) Aesthetic Mappings. 
-     
-geom_*(...) the shape/type of chart 
-e.g.
+geom\_\*(...) the shape/type of chart e.g.
 
-  ggplot(tract_data) +
-  
+ggplot(tract_data) +
+
 aes(x= population, y = moe_pct) +
-    
-   geom_point()
-    
+
+geom_point()
+
 ggplot(county_data) +
 
-  aes(x=estimate,y=population)+
-  
-  geom_point(color="blue")
-    
-|inside aes()|not inside|
-|---------|---------|
-|aes(color=reliability)|geom_point("blue") - decorations|
+aes(x=estimate,y=population)+
 
-|What I want to know|GEOM|
-|-----|-----|
-|How a variable is spread?|geom_histogram()|
-|How do two variables relate?|geom_point()|
-|How do groups compare?|geom_boxplot()|
-|How do things change over time?|geom_line()|
-|How uncertain is a value?|geom_errorbar()|
+geom_point(color="blue")
 
-LOW: _/
-MED: ___
-HIGH: ///
+| inside aes()           | not inside                       |
+|------------------------|----------------------------------|
+| aes(color=reliability) | geom_point("blue") - decorations |
 
-Coefficient of Variation (CV)
-  - Relative measure of sampling error
-    - **Standard error / estimate * 100**
-    - SE: 90%, MOE: 1.645
-    - 10,000
-    - Low CV 15% -- high reliability
-    - Medium- 15-30% - 
-    - High- 30% High sampling error
-    
+| What I want to know             | GEOM             |
+|---------------------------------|------------------|
+| How a variable is spread?       | geom_histogram() |
+| How do two variables relate?    | geom_point()     |
+| How do groups compare?          | geom_boxplot()   |
+| How do things change over time? | geom_line()      |
+| How uncertain is a value?       | geom_errorbar()  |
+
+LOW: */ MED:* \_\_ HIGH: ///
+
+Coefficient of Variation (CV) - Relative measure of sampling error - **Standard error / estimate \* 100** - SE: 90%, MOE: 1.645 - 10,000 - Low CV 15% -- high reliability - Medium- 15-30% - - High- 30% High sampling error
+
 ### Derived Uncertainty
-Poverty Rate = # in Poverty +- MOE / Total Population +- MOE
-moe_sum()-> adding estimates together
-moe_prop()-> one estimate as share of another
-moe_ratio()-> Poverty / Income One not a subset of another
 
-Change over time
-The overlapping intervals
-e.g. 2019-2023, 2018-2022
+Poverty Rate = \# in Poverty +- MOE / Total Population +- MOE moe_sum()-\> adding estimates together moe_prop()-\> one estimate as share of another moe_ratio()-\> Poverty / Income One not a subset of another
+
+Change over time The overlapping intervals e.g. 2019-2023, 2018-2022
 
 We need to compare non-overlapping intervals
 
-e.g.
-$2014-2018 45000 \pm 8,000$
+e.g. $2014-2018 45000 \pm 8,000$
 
 $2019-2023 62000 \pm 11,000$
 
 MOE = 17,000?
 
 ### The Maths: The Standard Error of Difference
+
 $SEdiff = \sqrt{SE_1 ^2 + SE_2^2}$
 
 $z = (est_1 - est_2) / SEdiff$
@@ -88,14 +72,3 @@ $z = (est_1 - est_2) / SEdiff$
 Confidence Interval of Change
 
 $difference \pm(1.645*SEdiff)$
-
-
-  
-
-
-    
-
-
-
-
-
