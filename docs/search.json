@@ -39,7 +39,7 @@
     "href": "weekly-notes/index.html",
     "title": "Weekly Notes",
     "section": "",
-    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 3: GGPlot Basics\n\n\nDiscussing ggplot,including how to use aes() and geom(), as well as further information about the math behind variance and errors\n\n\n\n\n\nSep 11, 2026\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nweek-4\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Using Spatial Data in R\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\n\n\n\n\n\nWeek 3: GGPlot Basics\n\n\nDiscussing ggplot,including how to use aes() and geom(), as well as further information about the math behind variance and errors\n\n\n\n\n\nSep 11, 2026\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -215,5 +215,19 @@
     "title": "Week 3: GGPlot Basics",
     "section": "",
     "text": "The Ansombe’s Quartet is a set of 4 different appearing plots that have the same mean x and y, the same regression line, and the same correlation factor.\nPlot is a mapping from columns in your data to visual properties on your page. (“Grammar of Graphics”) aka gg like from ggplot.\n\n\n\nYour Data\nPage (Canvas)\n\n\n\n\nestimate\n→ position on y-axis\n\n\npopulation\n→ position on x-axis\n\n\n\np &lt;- 1. ggplot(the data you’re using) —&gt; creates a blank canvas\naes(…) Aesthetic Mappings.\ngeom_*(…) the shape/type of chart e.g.\nggplot(tract_data) +\naes(x= population, y = moe_pct) +\ngeom_point()\nggplot(county_data) +\naes(x=estimate,y=population)+\ngeom_point(color=“blue”)\n\n\n\ninside aes()\nnot inside\n\n\n\n\naes(color=reliability)\ngeom_point(“blue”) - decorations\n\n\n\n\n\n\nWhat I want to know\nGEOM\n\n\n\n\nHow a variable is spread?\ngeom_histogram()\n\n\nHow do two variables relate?\ngeom_point()\n\n\nHow do groups compare?\ngeom_boxplot()\n\n\nHow do things change over time?\ngeom_line()\n\n\nHow uncertain is a value?\ngeom_errorbar()\n\n\n\nLOW: / MED: __ HIGH: ///\nCoefficient of Variation (CV) - Relative measure of sampling error - Standard error / estimate * 100 - SE: 90%, MOE: 1.645 - 10,000 - Low CV 15% – high reliability Medium- 15-30% High- 30% High sampling error\n\n\nPoverty Rate = # in Poverty MOE / Total Population MOE moe_sum()-&gt; adding estimates together moe_prop()-&gt; one estimate as share of another moe_ratio()-&gt; Poverty / Income One not a subset of another\nChange over time The overlapping intervals e.g. 2019-2023, 2018-2022\nWe need to compare non-overlapping intervals\ne.g. \\(2014-2018 45000 \\pm 8,000\\)\n\\(2019-2023 62000 \\pm 11,000\\)\nMOE = 17,000?\n\n\n\n\\(SEdiff = \\sqrt{SE_1 ^2 + SE_2^2}\\)\n\\(z = (est_1 - est_2) / SEdiff\\)\nConfidence Interval of Change\n\\(difference \\pm(1.645*SEdiff)\\)"
+  },
+  {
+    "objectID": "weekly-notes/week-04.html",
+    "href": "weekly-notes/week-04.html",
+    "title": "Week 4: Using Spatial Data in R",
+    "section": "",
+    "text": "Table Join\nleft_join(income_23, income_15, by=“GEOID”)\nGEOID is the field where the tables join\nincome_23 and income_15 represent the median income in 2023 and 2015, and they are joined side by side\nleft_join = match everything to the field on the left, if not matching on right return NA\ninner_join = match both tables\nfull_join = match every row, if not possible return NA\ngeometry -&gt; “Sticky”, it sticks to the data\n.shp = shapefile\n.gdb = geodatabase\nSF = sample features\nCoordinate Reference Systems\n\n\n\nGeographic\nProjected\n\n\n\n\nunits: degrees\n-\n\n\n\nThe Earth is a geoid which is irregular\nWe measure the Earth as an ellipsoid, and its axes.\nIt’s a good fit for some places and poor fit for others, because it cannot perfectly match the geoid.\nNAD 27 - North American Datum - uses the Clarke 1866 ellipsoid and uses Meades Ranch, Kansas as its datum/reference point\nNAD 83 - uses the Earth centered GRS-80 ellipsoid - lines of latitude and longitude are different than NAD 27\nWGS84 - Another Earth centered ellipsoid (This is the GPS standard)\n#Distortion#\nSADD\nShape\nArea\nDistance\nDirection"
+  },
+  {
+    "objectID": "weekly-notes/week-04.html#full_join-match-every-row-if-not-possible-return-na",
+    "href": "weekly-notes/week-04.html#full_join-match-every-row-if-not-possible-return-na",
+    "title": "Week 4:",
+    "section": "full_join = match every row, if not possible return NA",
+    "text": "full_join = match every row, if not possible return NA"
   }
 ]

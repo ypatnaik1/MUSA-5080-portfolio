@@ -1,0 +1,91 @@
+---
+title: "Week 4: Using Spatial Data in R"
+description: ""
+date: "September 18, 2026"
+editor: visual
+---
+
+### Table Join
+
+left_join(income_23, income_15, by="GEOID")
+
+**GEOID is the field where the tables join**
+
+income_23 and income_15 represent the median income in 2023 and 2015, and they are joined side by side
+
+*left_join* = match everything to the field on the left, if not matching on right return NA
+
+*inner_join* = match both tables
+
+*full_join* = match every row, if not possible return NA
+
+*geometry* -\> "Sticky", it sticks to the data
+
+*.shp* = shapefile
+
+*.gdb* = geodatabase
+
+*SF* = sample features
+
+### Coordinate Reference Systems
+
+| Geographic     | Projected             |
+|----------------|-----------------------|
+| units: degrees | state plane           |
+|                | Units: feet or meters |
+
+The Earth is a geoid which is irregular
+
+We measure the Earth as an ellipsoid, and its axes.
+
+It's a good fit for some places and poor fit for others, because it cannot perfectly match the geoid.
+
+NAD 27 - North American Datum - uses the Clarke 1866 ellipsoid and uses Meades Ranch, Kansas as its datum/reference point
+
+NAD 83 - uses the Earth centered GRS-80 ellipsoid - lines of latitude and longitude are different than NAD 27
+
+WGS84 - Another Earth centered ellipsoid (*This is the GPS standard*)
+
+### Distortion
+
+*SADD*
+
+Shape
+
+Area
+
+Distance
+
+Direction
+
+- Cylindrical projection
+
+  - Equator = line of tangency
+
+- Transverse cylindrical
+
+  - Longitudinal line of tangency
+
+- Conic projection
+
+  - curved line of tangency
+
+- Planar (Azimuthal)
+
+  - line of tangency is a circle
+
+**What to use:**
+
+Shapes: Conformal Conic
+
+Areas: Equal-Area
+
+Distance: Equal-Distance
+
+Direction:
+
+State Plane: flatten half of the state out to project a line of tangency through the middle of that half of the state
+
+**EPSG** 
+
+*2272* = PA Southern State Plane
