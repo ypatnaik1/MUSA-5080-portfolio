@@ -1,6 +1,7 @@
 ---
 title: "Week 3"
 format: html
+date: "September 11, 2026"
 ---
 
 ## Ansombe's Quartet
