@@ -13,7 +13,7 @@ left_join(income_23, income_15, by="GEOID")
 
 income_23 and income_15 represent the median income in 2023 and 2015, and they are joined side by side
 
-*left_join* = match everything to the field on the left, if not matching on right return NA
+*left_join* = match everything to the field on the left, if not matching on rifght return NA
 
 *inner_join* = match both tables
 
