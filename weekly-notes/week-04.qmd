@@ -90,27 +90,20 @@ State Plane: flatten half of the state out to project a line of tangency through
 
 *2272* = PA Southern State Plane
 
-St_set_crs() -> 2272
-      adding the correct label
-st_transform()
+St_set_crs() -\> 2272 adding the correct label st_transform()
 
-st_crs() 
+st_crs()
 
 - to get CRS
 
-st_buffer() ->Creates area around features
+st_buffer() -\>Creates area around features
 
-st_intersect()-> Finds overlapping portions
+st_intersect()-\> Finds overlapping portions
 
+st_touches() -\> Shares boundary, not interior
 
-st_touches() -> Shares boundary, not interior
+st_within() -\> inside another feature
 
-st_within() -> inside another feature
+st_filter() -\> count the tracts
 
-st_filter() -> count the tracts
-
-st_intersection() -> shapes change, new polygons every intersect
-
-      
-
-
+st_intersection() -\> shapes change, new polygons every intersect
