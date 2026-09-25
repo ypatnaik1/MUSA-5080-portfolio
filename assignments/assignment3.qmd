@@ -13,7 +13,7 @@ format:
 The provided article examined changes in poverty and inequality across Philadelphia using the American Community Survey (ACS). It compared the 2006–2010 and 2013–2017 ACS 5-year estimated and reported large changes in poverty rates across several Philadelphia neighborhoods. For example, the article reported that Eastwick's poverty rate increased from 12% to 26%, while Holmesburg's poverty rate increased from 2% to 19%. Because the article's neighborhood boundaries are not Census geographies and the tracts used to construct them are not provided, this analysis uses census tracts to evaluate the broader pattern of poverty rate change across Philadelphia rather than attempting to reproduce the article's exact neighborhood estimates.
 I used ACS table B17001, with B17001_001 representing the population for the census tract and B17001_002 representing the population below the poverty level. I calculated the poverty rate as the population below as poverty divided by the population for whom poverty status is determined. I used the ACS 5-year estimates for 2010 and 2017, corresponding to the 2006–2010 and 2013–2017 periods compared in the article. The article confirms that its latest data are from the 2013–2017 five-year survey and that comparisons are made with 2006–2010. These periods do not overlap, the first ends in 2010 and the second begins in 2013, so they share no survey years. My main assumption is that changes at tract level can be used to evaluate the article's broad claims about geographic patterns of poverty change, but not its exact neighborhood level estimates.
 ```{r}
-```{r}
+#| include: false
 #| message: false
 #| warning: false
 
@@ -21,7 +21,9 @@ library(tidyverse)
 library(tidycensus)
 library(gt)
 library(sf)
+```
 
+```{R}
 phila_poverty_2010 <- get_acs(
   geography = "tract",
   state = "PA", 
