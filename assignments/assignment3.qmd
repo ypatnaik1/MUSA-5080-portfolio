@@ -27,6 +27,8 @@ library(sf)
 ```{R}
 #| message: false
 #| warning: false
+#| output: false
+
 phila_poverty_2010 <- get_acs(
   geography = "tract",
   state = "PA", 
