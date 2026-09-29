@@ -1,0 +1,141 @@
+---
+title: "Week 5: Machine Learning"
+description: ""
+date: "September 25, 2026"
+editor: visual
+---
+
+| GEOID | med_rent | med_inc | pct_renters | pct_ba | n_stations | rent_cv |        geometry |
+|--------:|--------:|--------:|--------:|--------:|--------:|--------:|--------:|
+|   100 |     1650 |   82000 |        0.71 |   0.64 |          3 |     9.8 | ((70,80......)) |
+
+Where do rents exceed our expectations?
+
+Income -
+
+30000 ---\> inferred rent 1000
+
+100000 ---\> inferred rent 3000
+
+250000 ---\> inferred rent 6000
+
+# Y = f(x) + ε
+
+y = rent
+
+f(x) = function unknown
+
+ε = everything else
+
+an example of some sort of factor is we all live in University City / West Philly and have low income for the expected rent from the function due to our status as students
+
+*Rigid*: easier to explain and interpret
+
+*Flexible*
+
+rigid: linear, lasso/ridge
+
+neutral: logistic
+
+flexible: trees, random forest, boosting, neural networks
+
+**Parametric**
+
+Assume a functional form
+
+**Non-Parametric**
+
+Don't (?)
+
+------------------------------------------------------------------------
+
+$\hat{y}= b_0+b_1x_1 + ε$
+
+$\hat{y}$ = the prediction
+
+$b_0+b_1x_1 + ε$ = the inference
+
+------------------------------------------------------------------------
+
+### Least Squares
+
+Minimize Sum of Squared Errors
+
+The code -
+
+m1 \<- lm(med_rent \~ med_inc, data=tracts)
+
+summary(m1)
+
+|             | Estimate |   S.E. | t-value | p-value |
+|------------:|---------:|-------:|--------:|--------:|
+| (intercept) |      690 |   38.0 |    18.2 | \<2e-16 |
+|     med_inc |   0.0081 | 0.0005 |    16.2 | \<2e-16 |
+
+0.0081 = Dollars of monthly rent per dollar of annual income
+
+0.0081\*1,000 = +\$81/month in predicted rent \*\*\*
+
+### Noise
+
+The noise in Y goes in the residuals; systematic variation (not noise)
+
+The noise in X flattens the slope
+
+------------------------------------------------------------------------
+
+### Fit vs. Prediction
+
+$R^2$ = On the data it was **fit** to
+
+Test/Train= 80% of your data for the training phase, come up with your best line, leave out 20% for the test
+
+19000 -\> Estimate 500 -400 = off by 100
+
+29000 -\> Estimate 900 -1200
+
+= off by 300
+
+RMSE (root mean square error) -\> lower is better
+
+In your units
+
+## Cross Validation
+
+K-Fold
+
+5 folds,100 records
+
+\|1\|2\|3\|4\|5\|
+|---:|---:|---:|---:|---:|
+|20|20|20|20|20|
+
+RMSE 100
+
+\|1\|2\|3\|4\|5\|
+|---:|---:|---:|---:|---:|
+|20|Test|20|20|20|
+
+RMSE 300
+
+Average RMSE
+
+## Overfitting
+
+learning the noise
+
+error = $1
+Philadelphia
+
+Idiosyncrasies
+
+## How to pick features?
+
+Multicollinearity -> mostly harmless but check your prediction
+
+Homoskedastic
+
+
+
+
+
