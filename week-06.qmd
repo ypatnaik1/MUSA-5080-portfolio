@@ -1,0 +1,288 @@
+---
+title: "Week 6: Feature engineering"
+description: ""
+date: "October 9, 2026"
+editor: visual
+---
+
+# feature engineering
+
+assignment 4 = practice for team assignment predicting home values
+
+linear regression fits a straight line, but relationships aren't always linear
+
+feature engineering = transforming variables to improve prediction without needing more complicated ML models
+
+linear regression still useful because it's interpretable
+
+------------------------------------------------------------------------
+
+## data
+
+2023 ACS, Philadelphia census tracts
+
+y = median gross rent
+
+x = income, % renters, building age, distance to city hall
+
+building age = 2023 - median year built
+
+\% renters = renter households / total households \* 100
+
+distance = `st_distance()` from city hall, convert feet to miles (/5280)
+
+`progress = FALSE` in get_acs removes progress bars in QMD
+
+remove missing values using `filter(!is.na())`
+
+lm silently drops missing observations, so keep the same tracts across models
+
+377 census tracts
+
+### cross validation
+
+10 folds, train on 9 and test on 1, repeat
+
+seed = 5080, same folds for each model
+
+RMSE = root mean square error, lower is better
+
+model log = record of each model and its RMSE
+
+baseline (m0): rent \~ income + pct_renters + building_age + distance
+
+**RMSE = \$265**
+
+------------------------------------------------------------------------
+
+# logs
+
+use when distribution is skewed or percentage changes matter more than absolute changes
+
+30000 -\> 60000 = +30000 (100%)
+
+170000 -\> 200000 = +30000 (17.6%)
+
+same dollar increase, very different proportional change
+
+### log of x (m1)
+
+`rent ~ log(income) + pct_renters + building_age + distance`
+
+income coefficient = 502
+
+502/100 = \$5.02
+
+1% increase in income -\> approximately \$5 higher rent
+
+10% increase -\> \$502 \* ln(1.10) = approx \$48
+
+didn't improve RMSE much
+
+log(0) = -infinity
+
+use `log1p(x)` = log(1+x) for variables with zeros (crime counts, 311 calls)
+
+### log of y (m2)
+
+`log(rent) ~ log(income) + pct_renters + building_age + distance`
+
+| Model       | Interpretation              |
+|-------------|-----------------------------|
+| level-level | 1 unit x -\> b units y      |
+| level-log   | 1% x -\> b/100 units y      |
+| log-level   | 1 unit x -\> approx 100b% y |
+| log-log     | 1% x -\> approx b% y        |
+
+log-log = elasticity
+
+important: when logging y, RMSE is in log units
+
+RMSE \$250 -\> 0.18 doesn't mean huge improvement
+
+`exp(predictions)` converts predictions back to dollars before calculating RMSE
+
+**m2 RMSE approx \$263**
+
+------------------------------------------------------------------------
+
+# squared terms
+
+some relationships are curved
+
+building age vs rent:
+
+new buildings = expensive, middle aged = cheaper, very old = desirable again (vintage)
+
+U-shaped relationship
+
+$$
+Rent = b_0+b_1Age+b_2Age^2+\epsilon
+$$
+
+`I(building_age^2)` in R
+
+include both age and age squared
+
+| Linear | Squared | Shape      |
+|--------|---------|------------|
+| \+     | \-      | inverted U |
+| \-     | \+      | U shape    |
+
+here age negative, squared positive
+
+### turning point
+
+$$
+x^* = \frac{-b_1}{2b_2}
+$$
+
+turning point = **76.8 years**
+
+maximum age in data = 85 years
+
+check that turning point is within observed range, otherwise extrapolating
+
+ACS also groups buildings before 1940 together
+
+**m3 RMSE = \$261**
+
+------------------------------------------------------------------------
+
+# categorical variables
+
+variables can already be categorical (zoning, housing type) or made into categories
+
+example: distance to city hall
+
+| Ring  | Distance  |
+|-------|-----------|
+| core  | \<2 miles |
+| inner | 2-5 miles |
+| outer | 5+ miles  |
+
+`case_when()` = assign categories
+
+`factor()` = tell R these are categories, not numbers
+
+`cut()` = create bins from continuous variables
+
+### dummy variables
+
+K categories -\> K-1 dummy variables
+
+one is the reference category
+
+| Ring  | Coefficient |
+|-------|------------:|
+| core  |   reference |
+| inner |        -122 |
+| outer |        -164 |
+
+inner = \$122 lower rent than core, outer = \$164 lower, holding others constant
+
+changing reference category changes interpretation, not predictions
+
+categorizing loses information: 2.1 and 4.9 miles both become inner
+
+check category sizes before cross validation, otherwise some categories might be absent from training data
+
+**m4 (distance rings) made RMSE worse**
+
+------------------------------------------------------------------------
+
+# interactions
+
+categories = different intercepts
+
+interactions = different slopes
+
+example: income might have stronger relationship with rent in core than outer ring
+
+`log(income) * ring`
+
+core = reference
+
+| Ring  |    Income Slope |
+|-------|----------------:|
+| core  |             653 |
+| inner | 653 - 219 = 434 |
+| outer | 653 - 244 = 409 |
+
+1% increase in income:
+
+core -\> \$6.53 higher rent
+
+inner -\> \$4.34
+
+outer -\> \$4.09
+
+use interactions when there's a reason to expect different relationships across groups
+
+**m5 RMSE = \$264**
+
+------------------------------------------------------------------------
+
+# fixed effects
+
+some rent differences can't be explained by measured predictors
+
+neighborhood reputation, perception, sense of place etc
+
+fixed effects = categorical indicators capturing location-specific differences
+
+example: Philadelphia's 18 planning districts
+
+### spatial join
+
+join census tracts to planning districts using `st_join(largest = TRUE)`
+
+if tract overlaps two districts, assign it to the district with largest area of overlap
+
+district = factor
+
+small categories cause cross validation errors if no observations from that category are in training
+
+professor merged small categories to have at least 10 observations per group
+
+### model
+
+add planning district as a categorical predictor
+
+each district gets its own intercept adjustment
+
+captures remaining location-specific differences, but doesn't explain exactly what causes them
+
+can map district coefficients and compare residuals before/after
+
+**m6 RMSE = \$256 — best model**
+
+------------------------------------------------------------------------
+
+# model comparison
+
+| Model | Change                          |          RMSE |
+|-------|---------------------------------|--------------:|
+| m0    | baseline                        |         \$265 |
+| m1    | log income                      | little change |
+| m2    | log rent + income               |       \~\$263 |
+| m3    | squared building age            |         \$261 |
+| m4    | distance categories             |         worse |
+| m5    | income x ring                   |         \$264 |
+| m6    | planning district fixed effects |         \$256 |
+
+best = fixed effects
+
+feature engineering doesn't always improve predictions
+
+logs = proportional changes
+
+squared = curved relationships
+
+categories = group differences
+
+interactions = different slopes
+
+fixed effects = unmeasured geographic differences
+
+**main point:** test transformations using cross-validation RMSE, not just R²

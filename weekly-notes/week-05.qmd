@@ -106,15 +106,11 @@ K-Fold
 
 5 folds,100 records
 
-\|1\|2\|3\|4\|5\|
-|---:|---:|---:|---:|---:|
-|20|20|20|20|20|
+\|1\|2\|3\|4\|5\| \|---:\|---:\|---:\|---:\|---:\| \|20\|20\|20\|20\|20\|
 
 RMSE 100
 
-\|1\|2\|3\|4\|5\|
-|---:|---:|---:|---:|---:|
-|20|Test|20|20|20|
+\|1\|2\|3\|4\|5\| \|---:\|---:\|---:\|---:\|---:\| \|20\|Test\|20\|20\|20\|
 
 RMSE 300
 
@@ -124,18 +120,12 @@ Average RMSE
 
 learning the noise
 
-error = $1
-Philadelphia
+error = \$1 Philadelphia
 
 Idiosyncrasies
 
 ## How to pick features?
 
-Multicollinearity -> mostly harmless but check your prediction
+Multicollinearity -\> mostly harmless but check your prediction
 
 Homoskedastic
-
-
-
-
-
