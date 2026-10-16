@@ -1,7 +1,7 @@
 ---
 title: "Assignment: Building Features, Watching What Happens"
 subtitle: "MUSA 5080 · Integrates Weeks 1–5 · Due Friday, October 16"
-author: "YOUR NAME"
+author: "Yogi Patnaik"
 format:
   html:
     toc: true
@@ -13,52 +13,19 @@ execute:
 freeze: false
 ---
 
-## What this assignment is (and isn't)
-
-This is **not a competition.** There's no leaderboard and no target RMSE. The goal is to practice the full prediction workflow on a question you choose, and to **find out what actually helps.** Some features you're sure will help won't, and some you add on a whim will. Both are findings.
-
-You'll:
-
-1. Choose a tract-level outcome for Philadelphia and check whether it's reliable enough to model (Weeks 2–3).
-2. Fit a baseline model and cross-validate it (Week 5).
-3. Pull data from Philadelphia's open data portal through its API and build spatial features: counts, densities, and distances (Week 4, plus one new tool).
-4. Transform variables with logs, squared terms, and categories. **Watch the October 9 recorded lecture before Part 5.**
-5. Keep a **model log** the whole way through, and compare where your first and final models go wrong.
-
-**Timing.** Parts 1–4 use only what we've covered through Week 5. You can finish them before the October 9 lecture. Part 5 is new material; the lecture explains it, and the instructions below give you the essentials.
-
-**Type the code yourself.** The worked examples show the pattern. Your job is to apply it to your outcome and your data choices.
-
-### Three rules that apply everywhere
-
-::: {.callout-important}
-## 1. Don't drop rows
-Every model is cross-validated on the same tracts with the same folds, so the rows in your model log are comparable. If a new variable has missing values, fill them (for example, 0 for a count, or the median with a note) or choose a different variable. The `cv_rmse()` helper below will stop and tell you if you break this rule.
-
-## 2. Stay inside the time window
-Your outcome comes from the 2019–2023 ACS. Pull open data from **2023 or earlier** (2021–2023 is ideal). Using 2025 data to predict a 2023 outcome uses information from the future, which a real prediction model would never have.
-
-## 3. No leakage
-Don't use any variable that's built from your outcome or measures the same thing another way. Ask yourself: *would an agency trying to predict this outcome for a tract have this variable?* If the answer is "only because it's basically the outcome," leave it out.
-:::
-
----
-
-## Part 0: Setup
 
 ```{r}
 #| label: setup
+
 library(tidyverse)
 library(tidycensus)
 library(sf)
 library(caret)
 
-Sys.getenv("CENSUS_API_KEY") != ""   # should print TRUE
+Sys.getenv("CENSUS_API_KEY") != ""
 ```
 
-### The cross-validation helper
 
-This function runs 10-fold cross-validation with the same seed every time, so every model in your log is tested on the same folds. **You don't need to change it.** Read it once so you know what it does.
 
 ```{r}
 #| label: cv-helper
@@ -78,9 +45,6 @@ cv_rmse <- function(formula, data) {
 }
 ```
 
-### The model log
-
-Every time you fit a new model, add a row. By the end, this table is the story of your assignment.
 
 ```{r}
 #| label: log-start
@@ -92,42 +56,22 @@ model_log <- tibble(
 )
 ```
 
----
 
-## Part 1: Choose your outcome
-
-Pick a **tract-level ACS variable for Philadelphia** that matters for policy. Two outcomes are off limits: median gross rent (we did it in lab) and median home value (save it for A4).
-
-Some ideas if you're stuck:
-
-| Outcome | Why an agency might care | ACS table |
-|---|---|---|
-| % of households with no vehicle | Transit planning | B08201 or B25044 |
-| Mean travel time to work | Access to jobs | B08013_001 ÷ B08303_001 |
-| % of people below poverty | Targeting services | B17001 |
-| % of housing units vacant | Housing and blight | B25002 |
-| % of households overcrowded | Housing conditions | B25014 |
-
-Use `load_variables(2023, "acs5")` to browse and find exact variable codes.
-
-### 1A: Pull your outcome and your baseline predictors
-
-Choose **three to five ACS predictors** for your baseline model. They should be things that plausibly relate to your outcome, but **none of them may be built from your outcome** (Rule 3).
 
 ```{r}
+
 #| label: pull
 philly_tracts <- get_acs(
   geography = "tract",
   state = "PA",
   county = "Philadelphia",
   variables = c(
-    total_pop = "B01003_001",
-    # your outcome's numerator and denominator (or median), e.g.:
-    # ___ = "___",
-    # ___ = "___",
-    # your baseline predictors, e.g.:
-    # ___ = "___"
-  ),
+  no_vehicle = "B08201_002",
+  vehicle_total = "B08201_001",
+  income = "B19013_001",
+  population = "B01003_001",
+  yr_built = "B25035_001"
+),
   year = 2023,
   output = "wide",
   geometry = TRUE
@@ -139,27 +83,21 @@ philly_tracts <- get_acs(
 #| label: build-outcome
 philly_tracts <- philly_tracts %>%
   mutate(
-    # build your outcome, e.g. a percentage:
-    # y = ___E / ___E * 100,
-    # and its reliability. For a percentage, use tidycensus::moe_prop();
-    # for a median or count, use the E and M columns directly.
-    # y_moe = ___,
-    # y_cv  = (y_moe / 1.645) / y * 100
-    # your predictors:
-    # ___ = ___
+    y = no_vehicleE / vehicle_totalE * 100,
+    y_moe = moe_prop(no_vehicleE, vehicle_totalE, no_vehicleM, vehicle_totalM) * 100,
+    y_cv = (y_moe / 1.645) / y * 100,
+    income = incomeE,
+    population = populationE,
+    bldg_age = 2023 - yr_builtE
   )
 ```
 
-### 1B: Is it reliable enough to model?
-
-Before you commit, check three things.
 
 ```{r}
 #| label: reliability
-# How many tracts have no value for your outcome?
+
 sum(is.na(philly_tracts$y))
 
-# How reliable is it?
 summary(philly_tracts$y_cv)
 
 philly_tracts %>%
@@ -171,17 +109,11 @@ philly_tracts %>%
   st_drop_geometry() %>%
   count(reliability)
 
-# What does the distribution look like?
 ggplot(philly_tracts, aes(x = y)) +
   geom_histogram(bins = 30) +
   theme_minimal()
 ```
-
-If more than about a third of tracts have low reliability, consider a different outcome, or one built from larger counts. Write your reasoning either way.
-
-**Answer (2–3 sentences):** What is your outcome, why would an agency want to predict it, and how reliable is it?
-
-*Your answer:*
+My outcome is the percentage of households without a vehicle within Philadelphia's census tracts. Predicting this could allow transportation agencies to identify areas where residents might be more dependent on public transportation. Most tracts have moderate reliability (313), while 29 have high reliability and 66 have low reliability. Some of the CV values are either missing or infinite due to being divided by 0.
 
 ### 1C: Decide which tracts to model
 
@@ -189,20 +121,21 @@ Filter once, here, and never again. Every later step uses `tracts`.
 
 ```{r}
 #| label: filter
+#| label: filter
+#| label: filter
 tracts <- philly_tracts %>%
-  filter(total_popE > 0,
-         !is.na(y)
-         # add !is.na() for each baseline predictor like in the in-class lab
+  filter(populationE > 0,
+         !is.na(y),
+         !is.na(income),
+         !is.na(population),
+         !is.na(bldg_age)
          )
 
 nrow(philly_tracts)
 nrow(tracts)
 ```
 
-**Answer:** How many tracts did you lose, and what kinds of places are they?
-
-*Your answer:*
-
+After I filtered out tracts with zero population or missing values within the outcome and baseline predictors, 381 of the original 408  tracts remained. A total of 27 tracts were excluded. These tracts had either missing data or zero population.
 ---
 
 ## Part 2: Baseline model
@@ -214,32 +147,42 @@ Plot your outcome against each predictor before modeling (the Week 3 habit).
 ```{r}
 #| label: look
 # one scatterplot per predictor, e.g.:
-# ggplot(tracts, aes(x = ___, y = y)) + geom_point(alpha = 0.5) +
-#   geom_smooth(method = "lm", se = FALSE) + theme_minimal()
+ggplot(tracts, aes(x = income, y = y)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal()
+
+ggplot(tracts, aes(x = population, y = y)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal()
+
+ggplot(tracts, aes(x = bldg_age, y = y)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_minimal()
 ```
 
 ### 2B: Fit and log
 
 ```{r}
 #| label: m1
-f1 <- y ~ ___ + ___ + ___
+f1 <- y ~ income + population + bldg_age
 
 m1 <- lm(f1, data = tracts)
+
 summary(m1)
 
 model_log <- model_log %>%
   add_row(model = "m1", added = "ACS baseline",
           cv_rmse = cv_rmse(f1, tracts),
-          notes = "___")
+          notes = "Income and population significant; R-squared = 0.190")
 
 model_log
 ```
 
-Write the CV RMSE as a sentence, in your outcome's units: "On tracts it hasn't seen, the baseline model misses by about ___."
+On tracts it hasn't seen, the baseline model misses by about 14.84 percentage points when predicting the percentage of households without a vehicle.
 
-### 2C: Where is the baseline wrong?
-
-Save this map. You'll compare it to your final model's map in Part 6.
 
 ```{r}
 #| label: resid-map-1
@@ -256,7 +199,7 @@ ggplot(tracts) +
 
 **Answer:** Where do the residuals cluster? What might those places have in common that your model doesn't know about? **Use this answer to choose your open data layers in Part 3.**
 
-*Your answer:*
+Positive residuals cluster around Center City, while negative residuals are more common in northeastern Philadelphia. These areas might differ in public transportation accessibility and land use, which are factors the baseline model does not account for.
 
 ---
 
@@ -343,19 +286,20 @@ Pull **at least two layers** that you think relate to your outcome. Base your ch
 
 ```{r}
 #| label: my-layers
-layer1 <- carto_get(
-  "SELECT the_geom, ___
-   FROM ___
-   WHERE ___"
-) %>%
+layer1 <- st_read("https://hub.arcgis.com/api/v3/datasets/b227f3ddbe3e47b4bcc7b7c65ef2cef6_0/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1") %>%
   st_transform(st_crs(tracts))
-
-layer2 <- ___
+layer2 <- st_read("https://hub.arcgis.com/api/v3/datasets/e433504739bd41049de5d8f4a22d34ba_0/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1") %>%
+  st_transform(st_crs(tracts))
+nrow(layer2)
+names(layer2)
+sum(st_is_empty(layer2))
+layer2 <- layer2 %>%
+  filter(!st_is_empty(layer2))
+layer2 <- layer2 %>%
+  filter(year == 2023)
 ```
 
-**Answer:** Why these layers? What do you expect them to capture that the ACS variables don't?
-
-*Your answer:*
+I chose SEPTA transit stops as well as land use because they can help explain differences found in the percentage of households without vehicles across Philadelphia. Transit stops capture access to public transportation, which may reduce the need to own a car. Land use captures how neighborhoods are developed, including residential, commercial, and mixed-use areas, which may influence walkability and access to nearby destinations. Unlike the ACS variables of income, population, and building age, these layers capture characteristics of the built environment and transportation accessibility that may help explain the spatial patterns in the baseline model's residuals.
 
 ---
 
@@ -373,6 +317,11 @@ tracts <- tracts %>%
   mutate(n_burglary = lengths(st_intersects(., burglary)))
 
 summary(tracts$n_burglary)
+
+tracts <- tracts %>%
+  mutate(n_stops = lengths(st_intersects(., layer1)))
+
+summary(tracts$n_stops)
 ```
 
 A tract with no burglaries gets 0, not NA, so Rule 1 is safe.
@@ -621,4 +570,5 @@ Answer in prose, drawing on your model log (incorporate our words of the day for
 ## Submitting
 
 Render this document to HTML and submit the link on Canvas by Friday, October 16. I'll miss you all terribly while I'm away. Please send letters or correspondences to my office mailbox. 
+
 
