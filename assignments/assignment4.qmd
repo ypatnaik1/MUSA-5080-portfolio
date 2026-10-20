@@ -59,7 +59,9 @@ model_log <- tibble(
 
 
 ```{r}
-
+#| message: false
+#| warning: false
+#| results: hide
 #| label: pull
 philly_tracts <- get_acs(
   geography = "tract",
