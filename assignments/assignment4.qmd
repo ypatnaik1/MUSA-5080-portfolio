@@ -115,9 +115,7 @@ ggplot(philly_tracts, aes(x = y)) +
 ```
 My outcome is the percentage of households without a vehicle within Philadelphia's census tracts. Predicting this could allow transportation agencies to identify areas where residents might be more dependent on public transportation. Most tracts have moderate reliability (313), while 29 have high reliability and 66 have low reliability. Some of the CV values are either missing or infinite due to being divided by 0.
 
-### 1C: Decide which tracts to model
 
-Filter once, here, and never again. Every later step uses `tracts`.
 
 ```{r}
 #| label: filter
@@ -138,11 +136,7 @@ nrow(tracts)
 After I filtered out tracts with zero population or missing values within the outcome and baseline predictors, 381 of the original 408  tracts remained. A total of 27 tracts were excluded. These tracts had either missing data or zero population.
 ---
 
-## Part 2: Baseline model
 
-### 2A: Look first
-
-Plot your outcome against each predictor before modeling (the Week 3 habit).
 
 ```{r}
 #| label: look
@@ -163,7 +157,6 @@ ggplot(tracts, aes(x = bldg_age, y = y)) +
   theme_minimal()
 ```
 
-### 2B: Fit and log
 
 ```{r}
 #| label: m1
@@ -197,7 +190,7 @@ ggplot(tracts) +
        fill = "Residual")
 ```
 
-**Answer:** Where do the residuals cluster? What might those places have in common that your model doesn't know about? **Use this answer to choose your open data layers in Part 3.**
+
 
 Positive residuals cluster around Center City, while negative residuals are more common in northeastern Philadelphia. These areas might differ in public transportation accessibility and land use, which are factors the baseline model does not account for.
 
@@ -259,30 +252,6 @@ burglary <- carto_get(
 nrow(burglary)
 ```
 
-::: {.callout-warning}
-## Check for missing geometry
-Some records have no location. Drop them with `filter(!st_is_empty(burglary))`, and count how many you lost. Every point you drop is a point that won't be counted.
-:::
-
-### Other layers to try
-
-These tables were available on Carto as of this fall. If a query fails, check the dataset's OpenDataPhilly page for the current table name.
-
-| Data | Table | Filter on | Notes |
-|---|---|---|---|
-| Crime incidents | `incidents_part1_part2` | `dispatch_date`, `text_general_code` | Pick specific offense types |
-| Shooting victims | `shootings` | `date_` | Small enough to pull several years |
-| 311 requests | `public_cases_fc` | `requested_datetime`, `service_name` | Use the count query above to see service names |
-| Indego stations | *(not Carto)* `https://www.rideindego.com/stations/json/` | — | The Week 4 feed |
-
-Datasets not on Carto often have a GeoJSON download link on their OpenDataPhilly page. `st_read()` reads those URLs too.
-For example, navigage to https://opendataphilly.org/, find a dataset that you'd like to import. I found city landmarks. On the page there is a link to a GeoJSON file. I simply right-clicked on that hyperlink and copied it and then used st_read() and pasted the link: 
-
-landmarks <- st_read("https://hub.arcgis.com/api/v3/datasets/6b2fe4a0fbe14e0a8e6afceaea230b8e_0/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1")
-
-### Your turn
-
-Pull **at least two layers** that you think relate to your outcome. Base your choice on your Part 2C answer.
 
 ```{r}
 #| label: my-layers
@@ -340,14 +309,7 @@ tracts <- tracts %>%
   )
 ```
 
-::: {.callout-note}
-## Per capita in low-population tracts
-If a tract has 40 residents and 3 burglaries, its rate is 75 per 1,000, which is a huge number built on tiny counts. Look at the tracts with the highest per-capita rates before you trust them. This is the Week 3 lesson about small denominators again.
-:::
 
-### 4C: Measuring distance to the nearest thing
-
-How far is each tract from its nearest Indego station? Use the Week 4 pattern: find the nearest feature, then measure to it **element by element**.
 
 ```{r}
 #| label: nearest
@@ -363,9 +325,7 @@ tracts <- tracts %>%
     st_distance(tract_pts, stations[nearest_idx, ], by_element = TRUE)) / 5280)
 ```
 
-### 4D: Measuring distance to one place
 
-Sometimes the "thing" is a single location, such as City Hall as a stand-in for the center of the regional economy.
 
 ```{r}
 #| label: city-hall
@@ -376,9 +336,7 @@ tracts <- tracts %>%
   mutate(dist_ch_mi = as.numeric(st_distance(tract_pts, city_hall)) / 5280)
 ```
 
-### 4E: Your turn
 
-Build **at least three spatial features** from your own layers, and use at least two types (count, density, nearest distance, distance to a place). After **each one**, fit a model, cross-validate it, and log it.
 
 ```{r}
 #| label: my-spatial
@@ -425,9 +383,9 @@ model_log <- model_log %>%
 model_log
 ```
 
-**Answer:** Which spatial feature helped most? Did any feature you expected to help do nothing, or make CV RMSE worse? Why might that be?
+ Which spatial feature helped most? Did any feature you expected to help do nothing, or make CV RMSE worse? Why might that be?
 
-*Your answer:* The spatial feature that helped the most was SEPTA stop density, which reduced the CV RMSE from 14.83589 in the baseline model to 12.76867 in m3. This suggests that the concentration of transit stops within a census tract is a useful predictor for the percentage of households without a vehicle. Distance to the nearest SEPTA stop also improved the model, reducing CV RMSE to 13.70125. However, the raw number of SEPTA stops per tract slightly worsened prediction, increasing CV RMSE to 14.91198. I thought this feature would help because areas with more transit stops might have more households that do not own vehicles. One possible explanation is that since census tracts vary in size, larger tracts may contain more stops without necessarily having better transit accessibility. Stop density accounts for tract area, which may explain why it performed better than the raw counts.
+The spatial feature that helped the most was SEPTA stop density, which reduced the CV RMSE from 14.83589 in the baseline model to 12.76867 in m3. This suggests that the concentration of transit stops within a census tract is a useful predictor for the percentage of households without a vehicle. Distance to the nearest SEPTA stop also improved the model, reducing CV RMSE to 13.70125. However, the raw number of SEPTA stops per tract slightly worsened prediction, increasing CV RMSE to 14.91198. I thought this feature would help because areas with more transit stops might have more households that do not own vehicles. One possible explanation is that since census tracts vary in size, larger tracts may contain more stops without necessarily having better transit accessibility. Stop density accounts for tract area, which may explain why it performed better than the raw counts.
 
 ---
 
@@ -437,10 +395,6 @@ model_log
 
 So far, every predictor has entered the model as a straight line: each additional unit of X changes predicted Y by the same amount, everywhere. Transformations let the model bend. For prediction, the question is simply **does the bend lower CV RMSE?** For interpretation, each transformation changes what a coefficient means, so you need to know how to read it.
 
-::: {.callout-tip}
-## Transform predictors, not your outcome
-Keep your outcome `y` untransformed in this assignment. If you model `log(y)`, your CV RMSE comes out in log units and can't be compared to the other rows in your log. (Predicting a logged outcome well requires back-transforming, which is an A4 topic.)
-:::
 
 ### 5A: Logs, for skewed predictors
 
