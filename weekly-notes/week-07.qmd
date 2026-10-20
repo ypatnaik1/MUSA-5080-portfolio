@@ -2,3 +2,245 @@
 title: "week-07"
 editor: visual
 ---
+
+# 
+
+# House price prediction
+
+## From tracts to houses
+
+same ML methods, different unit of analysis.
+
+before we used census tracts (polygons), now individual house sales (points).
+
+\~400 tracts vs \~20,000 houses.
+
+crime is counted within a **660 ft buffer** around each house instead of within a tract. can also use mean distance to the 5 nearest crimes (kNN).
+
+## Cleaning the sales
+
+started with 37,866 recorded sales from 2023–2024.
+
+not every recorded sale is an actual market sale. some are \$1 family transfers, sheriff sales, LLC transfers, etc.
+
+``` r
+sales <- sales %>%
+  filter(sale_price >= 10000, total_livable_area > 0, !st_is_empty(.))
+```
+
+also remove missing building age and bathrooms.
+
+final = **27,551 sales**.
+
+deciding what counts as a market sale is a modeling decision.
+
+## Feature engineering
+
+two ways to measure violent crime near a house.
+
+violent_660ft = number of violent crimes within 660 ft.
+
+violent_knn5 = mean distance to 5 nearest violent crimes.
+
+buffer counts can be zero for many houses, while kNN distance generally isn't.
+
+which is better? **let cross-validation RMSE decide.**
+
+# Where is the model wrong?
+
+## Residuals
+
+``` r
+m1 <- lm(sale_price ~ total_livable_area + number_of_bathrooms +
+           age + violent_knn5, data = sales)
+
+sales <- sales %>%
+  mutate(pred = predict(m1, sales),
+         resid = sale_price - pred)
+```
+
+**residual = actual − predicted**
+
+positive residual = actual higher than predicted, model guessed too low.
+
+negative residual = actual lower than predicted, model guessed too high.
+
+map residuals to see where the model is making mistakes.
+
+alpha helps with overlapping points, `squish` stops extreme residuals from dominating the colors.
+
+## Spatial autocorrelation
+
+Tobler's law = nearby things tend to be more related than distant things.
+
+if nearby houses have similar residuals, the model may be missing something about location.
+
+## Spatial lag
+
+spatial lag = average residual of neighboring houses.
+
+``` r
+coords <- st_coordinates(sales)
+
+w_knn <- nb2listw(knn2nb(knearneigh(coords, k = 5)), style = "W")
+
+sales$resid_lag <- lag.listw(w_knn, sales$resid)
+```
+
+k = 5 finds the 5 nearest neighbors.
+
+style = "W" makes the weights sum to 1 for each house.
+
+resid_lag = average residual of those neighbors.
+
+**main idea**
+
+if nearby houses have related prediction errors, the errors are spatially clustered rather than independent. the model may be missing geographic factors.
+
+### **Me vs. my neighbors**
+
+``` r
+ggplot(sales, aes(resid, resid_lag)) +
+  geom_point(alpha = 0.15, size = 0.6) +
+  geom_smooth(method = "lm", se = FALSE, color = "#b2182b") +
+  coord_cartesian(xlim = c(-3e5, 3e5), ylim = c(-2e5, 2e5)) +
+  labs(x = "My residual", y = "Average of my 5 neighbors' residuals")
+```
+
+x = my residual, y = average residual of my 5 nearest neighbors.
+
+the slope of the line is **Moran's I** when using row-standardized weights and an intercept.
+
+## Moran's I
+
+measures spatial autocorrelation, or whether nearby observations have similar values.
+
+$$
+I = \frac{
+\sum_i \sum_j w_{ij}(x_i - \bar{x})(x_j - \bar{x})
+}{
+\sum_i (x_i - \bar{x})^2
+}
+$$
+
+basically asking: **if my residual is above average, are my neighbors' residuals above average too?**
+
+positive Moran's I = nearby houses tend to have similar residuals.
+
+negative Moran's I = nearby houses tend to have opposite residuals.
+
+near zero = little spatial autocorrelation.
+
+## Five houses example
+
+| house | residual | deviation from mean |
+|-------|----------|---------------------|
+| A     | +100k    | +84k                |
+| B     | +80k     | +64k                |
+| C     | +20k     | +4k                 |
+| D     | −50k     | −66k                |
+| E     | −70k     | −86k                |
+
+mean residual = +16k.
+
+deviation = residual − mean.
+
+positive residual = model underpredicted the house price.
+
+houses A and B both have large positive residuals, while D and E both have negative residuals.
+
+if these houses are next to each other in that order, similar errors are clustering together.
+
+## Moran's I - five houses example
+
+five houses on a block, arranged A → B → C → D → E.
+
+| house | residual (\$k) | deviation from mean |
+|-------|----------------|---------------------|
+| A     | +100           | +84                 |
+| B     | +80            | +64                 |
+| C     | +20            | +4                  |
+| D     | −50            | −66                 |
+| E     | −70            | −86                 |
+
+mean residual = +16k.
+
+we subtract the mean from each residual because Moran's I compares whether neighboring houses are above or below the average.
+
+### Formula
+
+$$
+I = \frac{
+\sum_i \sum_j w_{ij}(x_i-\bar{x})(x_j-\bar{x})
+}{
+\sum_i (x_i-\bar{x})^2
+}
+$$
+
+### Step 1 - calculate the denominator
+
+square each house's deviation from the mean and add them together.
+
+$$
+84^2 + 64^2 + 4^2 + (-66)^2 + (-86)^2
+$$
+
+$$
+= 7056 + 4096 + 16 + 4356 + 7396
+= 22920
+$$
+
+### Step 2 - calculate the numerator
+
+each house is compared to its immediate neighbors.
+
+A and E have 1 neighbor, so their weight is 1.
+
+B, C, and D have 2 neighbors, so each neighbor gets a weight of 0.5.
+
+$$
+\begin{aligned}
+A &: 1(84)(64) = 5376 \\
+B &: 0.5(64)(84) + 0.5(64)(4) = 2816 \\
+C &: 0.5(4)(64) + 0.5(4)(-66) = -4 \\
+D &: 0.5(-66)(4) + 0.5(-66)(-86) = 2706 \\
+E &: 1(-86)(-66) = 5676
+\end{aligned}
+$$
+
+add all the neighbor products.
+
+$$
+5376 + 2816 - 4 + 2706 + 5676 = 16570
+$$
+
+### Step 3 - calculate Moran's I
+
+$$
+I = \frac{16570}{22920}
+\approx 0.723
+$$
+
+### Interpretation
+
+**Moran's I ≈ +0.72**
+
+this indicates positive spatial autocorrelation.
+
+houses A and B both have large positive residuals, while D and E both have negative residuals.
+
+nearby houses are making similar prediction errors, so the model may be missing something about location.
+
+**main idea**
+
+positive Moran's I = similar residuals cluster together.
+
+negative Moran's I = neighboring residuals tend to be different.
+
+near zero = little spatial autocorrelation.
+
+**main idea**
+
+Moran's I tells us whether prediction errors are spatially related instead of randomly distributed.
+
+if residuals cluster geographically, the model may be missing something about location.
