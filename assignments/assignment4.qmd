@@ -119,8 +119,7 @@ My outcome is the percentage of households without a vehicle within Philadelphia
 
 ```{r}
 #| label: filter
-#| label: filter
-#| label: filter
+
 tracts <- philly_tracts %>%
   filter(populationE > 0,
          !is.na(y),
