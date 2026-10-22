@@ -16,7 +16,10 @@ freeze: false
 
 ```{r}
 #| label: setup
-
+#| include: false
+#| message: false
+#| warning: false
+#| 
 library(tidyverse)
 library(tidycensus)
 library(sf)
@@ -135,7 +138,7 @@ nrow(tracts)
 ```
 
 After I filtered out tracts with zero population or missing values within the outcome and baseline predictors, 381 of the original 408  tracts remained. A total of 27 tracts were excluded. These tracts had either missing data or zero population.
----
+
 
 
 
@@ -260,9 +263,6 @@ layer1 <- st_read("https://hub.arcgis.com/api/v3/datasets/b227f3ddbe3e47b4bcc7b7
   st_transform(st_crs(tracts))
 layer2 <- st_read("https://hub.arcgis.com/api/v3/datasets/e433504739bd41049de5d8f4a22d34ba_0/downloads/data?format=geojson&spatialRefId=4326&where=1%3D1") %>%
   st_transform(st_crs(tracts))
-nrow(layer2)
-names(layer2)
-sum(st_is_empty(layer2))
 layer2 <- layer2 %>%
   filter(!st_is_empty(layer2))
 layer2 <- layer2 %>%
@@ -275,7 +275,6 @@ I chose SEPTA transit stops as well as land use because they can help explain di
 
 ## Part 4: Building spatial features
 
-Every feature below reuses a Week 4 tool. The worked examples use burglaries and Indego stations; you build the same types from your own layers.
 
 ### 4A: Counting
 
@@ -296,9 +295,8 @@ summary(tracts$n_stops)
 
 A tract with no burglaries gets 0, not NA, so Rule 1 is safe.
 
-### 4B: Density: don't skip this
+### 4B: Density
 
-Raw counts mostly measure **tract size**. A big tract has more of everything. Normalize by area, by population, or by housing units, depending on what makes sense for the thing you're counting.
 
 ```{r}
 #| label: density
@@ -384,7 +382,6 @@ model_log <- model_log %>%
 model_log
 ```
 
- Which spatial feature helped most? Did any feature you expected to help do nothing, or make CV RMSE worse? Why might that be?
 
 The spatial feature that helped the most was SEPTA stop density, which reduced the CV RMSE from 14.83589 in the baseline model to 12.76867 in m3. This suggests that the concentration of transit stops within a census tract is a useful predictor for the percentage of households without a vehicle. Distance to the nearest SEPTA stop also improved the model, reducing CV RMSE to 13.70125. However, the raw number of SEPTA stops per tract slightly worsened prediction, increasing CV RMSE to 14.91198. I thought this feature would help because areas with more transit stops might have more households that do not own vehicles. One possible explanation is that since census tracts vary in size, larger tracts may contain more stops without necessarily having better transit accessibility. Stop density accounts for tract area, which may explain why it performed better than the raw counts.
 
@@ -392,14 +389,11 @@ The spatial feature that helped the most was SEPTA stop density, which reduced t
 
 ## Part 5: Transforming features
 
-**Watch the October 9 recorded lecture before you start this part.** Below is a summary to work from.
 
-So far, every predictor has entered the model as a straight line: each additional unit of X changes predicted Y by the same amount, everywhere. Transformations let the model bend. For prediction, the question is simply **does the bend lower CV RMSE?** For interpretation, each transformation changes what a coefficient means, so you need to know how to read it.
 
 
 ### 5A: Logs, for skewed predictors
 
-Many urban variables are skewed: a few tracts have huge values, and most have small ones. Income, density, and counts are typical. A log compresses the long tail, so a model can use the difference between 1 and 10 as well as the difference between 100 and 1,000.
 
 ```{r}
 #| label: log-look
@@ -407,16 +401,9 @@ ggplot(tracts, aes(x = burglary_per_sqmi)) + geom_histogram(bins = 30) + theme_m
 ggplot(tracts, aes(x = log1p(burglary_per_sqmi))) + geom_histogram(bins = 30) + theme_minimal()
 ```
 
-::: {.callout-warning}
-## log(0) doesn't exist
-`log(0)` is `-Inf`, and it will break your model. Counts and densities often include zeros. Use `log1p(x)`, which computes `log(x + 1)`, for anything that can be 0.
-:::
 
-**Reading the coefficient:** when a predictor is logged, a **1% increase** in X goes with a change of about **β/100** in Y, in Y's units. With `log1p`, this reading is approximate for small values of X.
 
 ### 5B: Squared terms, for curves
-
-If your scatterplot bends (rising and then flattening, or falling and then rising), a squared term lets the line curve. Write it with `I()`, which tells R to do the arithmetic rather than read `^` as formula syntax.
 
 ```{r}
 #| label: squared-example
@@ -424,7 +411,6 @@ m_sq <- lm(y ~ dist_ch_mi + I(dist_ch_mi^2), data = tracts)
 summary(m_sq)
 ```
 
-**Reading the coefficient:** you can't read either coefficient alone anymore. The effect of X depends on where you are along X. A positive linear term with a negative squared term means Y rises with X and then levels off or turns down. Plot the fitted curve to see it:
 
 ```{r}
 #| label: squared-plot
@@ -437,7 +423,6 @@ ggplot(tracts, aes(x = dist_ch_mi, y = y)) +
 
 ### 5C: Categorical variables
 
-Sometimes a number works better as groups, either because the relationship isn't smooth or because the categories are meaningful. You can make categories from any variable with `case_when()` or `cut()`, and then make sure R treats them as a **factor**.
 
 ```{r}
 #| label: categorical-example
@@ -531,16 +516,12 @@ summary(m7)
 model_log
 
 ```
-
-**Answer:** Which transformation helped most? For your categorical variable, write one sentence reading one of its coefficients correctly, naming the reference level.
-
-*Your answer:* Of the 3 transformations tested, squared population performed the best, with a CV RMSE of 12.82280. However, none of the transformations improved on the original stop density model which had the lowest CV RMSE of 12.76867. In the categorical model, low SEPTA stop density was used as the reference category. Compared to tracts with low stop density, tracts with high stop density were predicted to have approximately 17.37 percentage points more households without a vehicle, holding income, population, and building age constant. This could potentially suggest that areas with a higher concentration of transit stops might tend to have higher percentages of households without vehicles, even after accounting for these socioeconomic and demographic factors.
+ Of the 3 transformations tested, squared population performed the best, with a CV RMSE of 12.82280. However, none of the transformations improved on the original stop density model which had the lowest CV RMSE of 12.76867. In the categorical model, low SEPTA stop density was used as the reference category. Compared to tracts with low stop density, tracts with high stop density were predicted to have approximately 17.37 percentage points more households without a vehicle, holding income, population, and building age constant. This could potentially suggest that areas with a higher concentration of transit stops might tend to have higher percentages of households without vehicles, even after accounting for these socioeconomic and demographic factors.
 
 ---
 
-## Part 6: Your final model
+## Part 6: Final model
 
-Combine the features and transformations that earned their place, **judged by CV RMSE, not p-values.**
 
 ```{r}
 #| label: final
@@ -564,6 +545,15 @@ model_log
 
 ```{r}
 #| label: resid-map-2
+tracts <- tracts %>% mutate(resid_m1 = residuals(m1))
+
+ggplot(tracts) +
+  geom_sf(aes(fill = resid_m1), color = NA) +
+  scale_fill_gradient2(low = "#2166ac", mid = "grey95", high = "#b2182b", midpoint = 0) +
+  theme_void() +
+  labs(title = "Baseline model: where it's wrong",
+       subtitle = "Red = actual higher than predicted",
+       fill = "Residual")
 tracts <- tracts %>%
   mutate(resid_final = residuals(m_final))
 
@@ -583,9 +573,7 @@ ggplot(tracts) +
   )
 ```
 
-Put your two residual maps side by side, or put them next to each other in the rendered document. Did the clusters from Part 2C shrink? Where did they stay?
 
-### Are the biggest misses in the least reliable tracts?
 
 ```{r}
 #| label: fog
@@ -600,22 +588,9 @@ ggplot(tracts, aes(x = y_cv, y = abs(resid_final))) +
 
 ---
 
-## Part 7: Reflection (about 300 words)
+## Part 7: Reflection 
 
-Answer in prose, drawing on your model log (incorporate our words of the day for bonus points. just kidding):
-
-1. **What helped, and what didn't?** Name the feature that lowered CV RMSE the most and the one that disappointed you most. Offer a reason for each.
-2. **Read one coefficient twice.** Choose a variable in your final model. Give its β̂ reading and its ŷ reading in one sentence each.
-3. **What's still missing?** Look at your final residual map. Name one thing about those places you'd want to measure next, and where you might get the data.
-4. **How much of the remaining error might be uncertainty or statistical noise?** Use your last plot.
-
-*Your answer:*
 The feature that improved the model the most was SEPTA stop density, which reduced CV RMSE from 14.83589 in the baseline model to 12.76867. This suggests that the concentration of transit stops is useful for predicting the percentage of households without vehicles in Philadelphia. Stop density likely performed better because it accounts for differences in census tract area, making comparisons between tracts more meaningful. In contrast, the raw number of SEPTA stops was the most disappointing feature, slightly increasing CV RMSE to 14.91198. Larger tracts may contain more transit stops without necessarily having better transit accessibility, which could explain why the raw count performed poorly. None of the transformations tested improved upon the original stop density model. In the final model, the coefficient for SEPTA stop density was 0.04988, indicating that each additional stop record per square mile is associated with a 0.04988 percentage-point increase in the percentage of households without vehicles, holding income, population, and building age constant. In terms of prediction, a tract with 10 additional stop records per square mile would be predicted to have approximately 0.50 percentage points more households without vehicles, assuming the other variables remain unchanged. This relationship suggests that transit availability may be an important factor in understanding differences in vehicle ownership across Philadelphia. The final residual map shows that the model continues to underestimate the percentage of households without vehicles in parts of South and central Philadelphia, while overestimating it in many northern and northeastern tracts. One additional factor worth examining is transit service frequency, since the number of stops alone does not capture how frequently buses or trains operate. SEPTA's published transit schedules or service data could help measure this. Including service frequency could help distinguish neighborhoods with many stops but limited service from those with more frequent transit options. Finally, the uncertainty plot shows no consistent relationship between ACS estimate uncertainty and prediction error. Several large residuals occur in tracts with relatively low coefficients of variation, suggesting that statistical uncertainty may explain some remaining error, but missing geographic and transportation factors likely contribute as well.
 
----
-
-## Submitting
-
-Render this document to HTML and submit the link on Canvas by Friday, October 16. I'll miss you all terribly while I'm away. Please send letters or correspondences to my office mailbox. 
 
 
