@@ -60,7 +60,7 @@ model_log <- tibble(
 )
 ```
 
-
+## Part 1
 
 ```{r}
 #| message: false
@@ -140,7 +140,7 @@ nrow(tracts)
 
 After I filtered out tracts with zero population or missing values within the outcome and baseline predictors, 381 of the original 408  tracts remained. A total of 27 tracts were excluded. These tracts had either missing data or zero population.
 
-
+## Part 2: Baseline model
 
 
 ```{r}
