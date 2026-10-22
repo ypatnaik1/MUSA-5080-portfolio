@@ -4,8 +4,7 @@ project:
   execute-dir: project
 
 website:
-  title: "Yogi Patnaik - MUSA 5080 Portfolio"        # <-- CHANGE THIS
-  description: "Public Policy Analytics portfolio"
+  title: "Yogi Patnaik - MUSA 5080 Portfolio"
   navbar:
     title: "Portfolio"
     left:
@@ -14,8 +13,9 @@ website:
       - href: about.qmd
         text: About
       - href: weekly-notes/index.qmd
-        text: "Weekly Notes"
+        text: Weekly Notes
       - href: assignments/index.qmd
+        text: Assignments.qmd
         text: "Assignments"
     right:
       - icon: github
