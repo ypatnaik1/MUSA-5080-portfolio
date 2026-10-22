@@ -39,7 +39,7 @@
     "href": "weekly-notes/index.html",
     "title": "Weekly Notes",
     "section": "",
-    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 4: Using Spatial Data in R\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\n\n\n\n\n\nWeek 3: GGPlot Basics\n\n\nDiscussing ggplot,including how to use aes() and geom(), as well as further information about the math behind variance and errors\n\n\n\n\n\nSep 11, 2026\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nweek-07\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Machine Learning\n\n\n\n\n\n\n\n\nSep 25, 2026\n\n\n\n\n\n\n\nWeek 4: Using Spatial Data in R\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\n\n\n\n\n\nWeek 3: GGPlot Basics\n\n\nDiscussing ggplot,including how to use aes() and geom(), as well as further information about the math behind variance and errors\n\n\n\n\n\nSep 11, 2026\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -334,5 +334,33 @@
     "title": "Assignment: Building Features, Watching What Happens",
     "section": "Part 7: Reflection",
     "text": "Part 7: Reflection\nThe feature that improved the model the most was SEPTA stop density, which reduced CV RMSE from 14.83589 in the baseline model to 12.76867. This suggests that the concentration of transit stops is useful for predicting the percentage of households without vehicles in Philadelphia. Stop density likely performed better because it accounts for differences in census tract area, making comparisons between tracts more meaningful. In contrast, the raw number of SEPTA stops was the most disappointing feature, slightly increasing CV RMSE to 14.91198. Larger tracts may contain more transit stops without necessarily having better transit accessibility, which could explain why the raw count performed poorly. None of the transformations tested improved upon the original stop density model. In the final model, the coefficient for SEPTA stop density was 0.04988, indicating that each additional stop record per square mile is associated with a 0.04988 percentage-point increase in the percentage of households without vehicles, holding income, population, and building age constant. In terms of prediction, a tract with 10 additional stop records per square mile would be predicted to have approximately 0.50 percentage points more households without vehicles, assuming the other variables remain unchanged. This relationship suggests that transit availability may be an important factor in understanding differences in vehicle ownership across Philadelphia. The final residual map shows that the model continues to underestimate the percentage of households without vehicles in parts of South and central Philadelphia, while overestimating it in many northern and northeastern tracts. One additional factor worth examining is transit service frequency, since the number of stops alone does not capture how frequently buses or trains operate. SEPTA’s published transit schedules or service data could help measure this. Including service frequency could help distinguish neighborhoods with many stops but limited service from those with more frequent transit options. Finally, the uncertainty plot shows no consistent relationship between ACS estimate uncertainty and prediction error. Several large residuals occur in tracts with relatively low coefficients of variation, suggesting that statistical uncertainty may explain some remaining error, but missing geographic and transportation factors likely contribute as well."
+  },
+  {
+    "objectID": "weekly-notes/week-05.html",
+    "href": "weekly-notes/week-05.html",
+    "title": "Week 5: Machine Learning",
+    "section": "",
+    "text": "GEOID\nmed_rent\nmed_inc\npct_renters\npct_ba\nn_stations\nrent_cv\ngeometry\n\n\n\n\n100\n1650\n82000\n0.71\n0.64\n3\n9.8\n((70,80……))\nWhere do rents exceed our expectations?\nIncome -\n30000 —&gt; inferred rent 1000\n100000 —&gt; inferred rent 3000\n250000 —&gt; inferred rent 6000"
+  },
+  {
+    "objectID": "weekly-notes/week-05.html#cross-validation",
+    "href": "weekly-notes/week-05.html#cross-validation",
+    "title": "Week 5: Machine Learning",
+    "section": "Cross Validation",
+    "text": "Cross Validation\nK-Fold\n5 folds,100 records\n|1|2|3|4|5| |—:|—:|—:|—:|—:| |20|20|20|20|20|\nRMSE 100\n|1|2|3|4|5| |—:|—:|—:|—:|—:| |20|Test|20|20|20|\nRMSE 300\nAverage RMSE"
+  },
+  {
+    "objectID": "weekly-notes/week-05.html#overfitting",
+    "href": "weekly-notes/week-05.html#overfitting",
+    "title": "Week 5: Machine Learning",
+    "section": "Overfitting",
+    "text": "Overfitting\nlearning the noise\nerror = $1 Philadelphia\nIdiosyncrasies"
+  },
+  {
+    "objectID": "weekly-notes/week-05.html#how-to-pick-features",
+    "href": "weekly-notes/week-05.html#how-to-pick-features",
+    "title": "Week 5: Machine Learning",
+    "section": "How to pick features?",
+    "text": "How to pick features?\nMulticollinearity -&gt; mostly harmless but check your prediction\nHomoskedastic"
   }
 ]
