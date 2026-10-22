@@ -117,5 +117,40 @@
     "title": "Week 7",
     "section": "Moran’s I - five houses example",
     "text": "Moran’s I - five houses example\nfive houses on a block, arranged A → B → C → D → E.\n\n\n\nhouse\nresidual ($k)\ndeviation from mean\n\n\n\n\nA\n+100\n+84\n\n\nB\n+80\n+64\n\n\nC\n+20\n+4\n\n\nD\n−50\n−66\n\n\nE\n−70\n−86\n\n\n\nmean residual = +16k.\nwe subtract the mean from each residual because Moran’s I compares whether neighboring houses are above or below the average.\n\nFormula\n\\[\nI = \\frac{\n\\sum_i \\sum_j w_{ij}(x_i-\\bar{x})(x_j-\\bar{x})\n}{\n\\sum_i (x_i-\\bar{x})^2\n}\n\\]\n\n\nStep 1 - calculate the denominator\nsquare each house’s deviation from the mean and add them together.\n\\[\n84^2 + 64^2 + 4^2 + (-66)^2 + (-86)^2\n\\]\n\\[\n= 7056 + 4096 + 16 + 4356 + 7396\n= 22920\n\\]\n\n\nStep 2 - calculate the numerator\neach house is compared to its immediate neighbors.\nA and E have 1 neighbor, so their weight is 1.\nB, C, and D have 2 neighbors, so each neighbor gets a weight of 0.5.\n\\[\n\\begin{aligned}\nA &: 1(84)(64) = 5376 \\\\\nB &: 0.5(64)(84) + 0.5(64)(4) = 2816 \\\\\nC &: 0.5(4)(64) + 0.5(4)(-66) = -4 \\\\\nD &: 0.5(-66)(4) + 0.5(-66)(-86) = 2706 \\\\\nE &: 1(-86)(-66) = 5676\n\\end{aligned}\n\\]\nadd all the neighbor products.\n\\[\n5376 + 2816 - 4 + 2706 + 5676 = 16570\n\\]\n\n\nStep 3 - calculate Moran’s I\n\\[\nI = \\frac{16570}{22920}\n\\approx 0.723\n\\]\n\n\nInterpretation\nMoran’s I ≈ +0.72\nthis indicates positive spatial autocorrelation.\nhouses A and B both have large positive residuals, while D and E both have negative residuals.\nnearby houses are making similar prediction errors, so the model may be missing something about location.\nmain idea\npositive Moran’s I = similar residuals cluster together.\nnegative Moran’s I = neighboring residuals tend to be different.\nnear zero = little spatial autocorrelation.\nmain idea\nMoran’s I tells us whether prediction errors are spatially related instead of randomly distributed.\nif residuals cluster geographically, the model may be missing something about location."
+  },
+  {
+    "objectID": "weekly-notes/week-01.html",
+    "href": "weekly-notes/week-01.html",
+    "title": "Week 1: Getting Set Up",
+    "section": "",
+    "text": "Today in class, our class made a repository from a template made by Prof. Delmelle. During class, I cloned my repository to GitHub Desktop and then opened and edited the files in RStudio. I edited the index markdown file which was a Quarto file. We went through the process of creating the website, as well as committing and pushing those changes onto github.com. Now I am editing the Week 1 Quarto markdown file with this text that you are reading now."
+  },
+  {
+    "objectID": "weekly-notes/week-01.html#what-we-did",
+    "href": "weekly-notes/week-01.html#what-we-did",
+    "title": "Week 1: Getting Set Up",
+    "section": "",
+    "text": "Today in class, our class made a repository from a template made by Prof. Delmelle. During class, I cloned my repository to GitHub Desktop and then opened and edited the files in RStudio. I edited the index markdown file which was a Quarto file. We went through the process of creating the website, as well as committing and pushing those changes onto github.com. Now I am editing the Week 1 Quarto markdown file with this text that you are reading now."
+  },
+  {
+    "objectID": "weekly-notes/week-01.html#key-concepts",
+    "href": "weekly-notes/week-01.html#key-concepts",
+    "title": "Week 1: Getting Set Up",
+    "section": "Key Concepts",
+    "text": "Key Concepts\nThree places a file can live:\n\nMy computer — where I edit\nGitHub.com — where it’s stored\nMy live site — what the world sees\n\nThe loop: Edit → Save → Render → Commit → Push → wait → refresh"
+  },
+  {
+    "objectID": "weekly-notes/week-01.html#proving-r-works",
+    "href": "weekly-notes/week-01.html#proving-r-works",
+    "title": "Week 1: Getting Set Up",
+    "section": "Proving R Works",
+    "text": "Proving R Works\nThe chunk below runs when this page renders. If you can see a result underneath it on your published site, R and Quarto are talking to each other correctly.\n\nsessionInfo()$R.version$version.string\n\n[1] \"R version 4.6.1 (2026-06-24)\""
+  },
+  {
+    "objectID": "weekly-notes/week-01.html#reflection",
+    "href": "weekly-notes/week-01.html#reflection",
+    "title": "Week 1: Getting Set Up",
+    "section": "Reflection",
+    "text": "Reflection\n\nI am someone who has been trying my best to avoid coding at all costs for a major portion of my life. However, as I completed my GIS degree, I realized how critical coding was, even if it didn’t take up a majority of how I completed my work. I am nervous to jump in the deep end of using R, but also excited about learning about the course material, especially creating prediction models."
   }
 ]
