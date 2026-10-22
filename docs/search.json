@@ -39,7 +39,7 @@
     "href": "weekly-notes/index.html",
     "title": "Weekly Notes",
     "section": "",
-    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nweek-07\n\n\n\n\n\n\n\n\n\n\n\n\n\nWeek 5: Machine Learning\n\n\n\n\n\n\n\n\nSep 25, 2026\n\n\n\n\n\n\n\nWeek 4: Using Spatial Data in R\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\n\n\n\n\n\nWeek 3: GGPlot Basics\n\n\nDiscussing ggplot,including how to use aes() and geom(), as well as further information about the math behind variance and errors\n\n\n\n\n\nSep 11, 2026\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Notes from each week of MUSA 5080. New entries appear here automatically — add a .qmd file to this folder and render.\n\n\n\n\n\n\n\n\n\n\n\nWeek 7\n\n\n\n\n\n\n\n\nOct 16, 2026\n\n\n\n\n\n\n\nWeek 5: Machine Learning\n\n\n\n\n\n\n\n\nSep 25, 2026\n\n\n\n\n\n\n\nWeek 4: Using Spatial Data in R\n\n\n\n\n\n\n\n\nSep 18, 2026\n\n\n\n\n\n\n\nWeek 3: GGPlot Basics\n\n\nDiscussing ggplot,including how to use aes() and geom(), as well as further information about the math behind variance and errors\n\n\n\n\n\nSep 11, 2026\n\n\n\n\n\n\n\nWeek 2: dplyr and Census Data\n\n\nLearning more about how to use R script and using dplyr in R\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -362,5 +362,68 @@
     "title": "Week 5: Machine Learning",
     "section": "How to pick features?",
     "text": "How to pick features?\nMulticollinearity -&gt; mostly harmless but check your prediction\nHomoskedastic"
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#from-tracts-to-houses",
+    "href": "weekly-notes/week-07.html#from-tracts-to-houses",
+    "title": "Week 7",
+    "section": "From tracts to houses",
+    "text": "From tracts to houses\nsame ML methods, different unit of analysis.\nbefore we used census tracts (polygons), now individual house sales (points).\n~400 tracts vs ~20,000 houses.\ncrime is counted within a 660 ft buffer around each house instead of within a tract. can also use mean distance to the 5 nearest crimes (kNN)."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#cleaning-the-sales",
+    "href": "weekly-notes/week-07.html#cleaning-the-sales",
+    "title": "Week 7",
+    "section": "Cleaning the sales",
+    "text": "Cleaning the sales\nstarted with 37,866 recorded sales from 2023–2024.\nnot every recorded sale is an actual market sale. some are $1 family transfers, sheriff sales, LLC transfers, etc.\nsales &lt;- sales %&gt;%\n  filter(sale_price &gt;= 10000, total_livable_area &gt; 0, !st_is_empty(.))\nalso remove missing building age and bathrooms.\nfinal = 27,551 sales.\ndeciding what counts as a market sale is a modeling decision."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#feature-engineering",
+    "href": "weekly-notes/week-07.html#feature-engineering",
+    "title": "Week 7",
+    "section": "Feature engineering",
+    "text": "Feature engineering\ntwo ways to measure violent crime near a house.\nviolent_660ft = number of violent crimes within 660 ft.\nviolent_knn5 = mean distance to 5 nearest violent crimes.\nbuffer counts can be zero for many houses, while kNN distance generally isn’t.\nwhich is better? let cross-validation RMSE decide."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#residuals",
+    "href": "weekly-notes/week-07.html#residuals",
+    "title": "Week 7",
+    "section": "Residuals",
+    "text": "Residuals\nm1 &lt;- lm(sale_price ~ total_livable_area + number_of_bathrooms +\n           age + violent_knn5, data = sales)\n\nsales &lt;- sales %&gt;%\n  mutate(pred = predict(m1, sales),\n         resid = sale_price - pred)\nresidual = actual − predicted\npositive residual = actual higher than predicted, model guessed too low.\nnegative residual = actual lower than predicted, model guessed too high.\nmap residuals to see where the model is making mistakes.\nalpha helps with overlapping points, squish stops extreme residuals from dominating the colors."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#spatial-autocorrelation",
+    "href": "weekly-notes/week-07.html#spatial-autocorrelation",
+    "title": "Week 7",
+    "section": "Spatial autocorrelation",
+    "text": "Spatial autocorrelation\nTobler’s law = nearby things tend to be more related than distant things.\nif nearby houses have similar residuals, the model may be missing something about location."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#spatial-lag",
+    "href": "weekly-notes/week-07.html#spatial-lag",
+    "title": "Week 7",
+    "section": "Spatial lag",
+    "text": "Spatial lag\nspatial lag = average residual of neighboring houses.\ncoords &lt;- st_coordinates(sales)\n\nw_knn &lt;- nb2listw(knn2nb(knearneigh(coords, k = 5)), style = \"W\")\n\nsales$resid_lag &lt;- lag.listw(w_knn, sales$resid)\nk = 5 finds the 5 nearest neighbors.\nstyle = “W” makes the weights sum to 1 for each house.\nresid_lag = average residual of those neighbors.\nmain idea\nif nearby houses have related prediction errors, the errors are spatially clustered rather than independent. the model may be missing geographic factors.\n\nMe vs. my neighbors\nggplot(sales, aes(resid, resid_lag)) +\n  geom_point(alpha = 0.15, size = 0.6) +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"#b2182b\") +\n  coord_cartesian(xlim = c(-3e5, 3e5), ylim = c(-2e5, 2e5)) +\n  labs(x = \"My residual\", y = \"Average of my 5 neighbors' residuals\")\nx = my residual, y = average residual of my 5 nearest neighbors.\nthe slope of the line is Moran’s I when using row-standardized weights and an intercept."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#morans-i",
+    "href": "weekly-notes/week-07.html#morans-i",
+    "title": "Week 7",
+    "section": "Moran’s I",
+    "text": "Moran’s I\nmeasures spatial autocorrelation, or whether nearby observations have similar values.\n\\[\nI = \\frac{\n\\sum_i \\sum_j w_{ij}(x_i - \\bar{x})(x_j - \\bar{x})\n}{\n\\sum_i (x_i - \\bar{x})^2\n}\n\\]\nbasically asking: if my residual is above average, are my neighbors’ residuals above average too?\npositive Moran’s I = nearby houses tend to have similar residuals.\nnegative Moran’s I = nearby houses tend to have opposite residuals.\nnear zero = little spatial autocorrelation."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#five-houses-example",
+    "href": "weekly-notes/week-07.html#five-houses-example",
+    "title": "Week 7",
+    "section": "Five houses example",
+    "text": "Five houses example\n\n\n\nhouse\nresidual\ndeviation from mean\n\n\n\n\nA\n+100k\n+84k\n\n\nB\n+80k\n+64k\n\n\nC\n+20k\n+4k\n\n\nD\n−50k\n−66k\n\n\nE\n−70k\n−86k\n\n\n\nmean residual = +16k.\ndeviation = residual − mean.\npositive residual = model underpredicted the house price.\nhouses A and B both have large positive residuals, while D and E both have negative residuals.\nif these houses are next to each other in that order, similar errors are clustering together."
+  },
+  {
+    "objectID": "weekly-notes/week-07.html#morans-i---five-houses-example",
+    "href": "weekly-notes/week-07.html#morans-i---five-houses-example",
+    "title": "Week 7",
+    "section": "Moran’s I - five houses example",
+    "text": "Moran’s I - five houses example\nfive houses on a block, arranged A → B → C → D → E.\n\n\n\nhouse\nresidual ($k)\ndeviation from mean\n\n\n\n\nA\n+100\n+84\n\n\nB\n+80\n+64\n\n\nC\n+20\n+4\n\n\nD\n−50\n−66\n\n\nE\n−70\n−86\n\n\n\nmean residual = +16k.\nwe subtract the mean from each residual because Moran’s I compares whether neighboring houses are above or below the average.\n\nFormula\n\\[\nI = \\frac{\n\\sum_i \\sum_j w_{ij}(x_i-\\bar{x})(x_j-\\bar{x})\n}{\n\\sum_i (x_i-\\bar{x})^2\n}\n\\]\n\n\nStep 1 - calculate the denominator\nsquare each house’s deviation from the mean and add them together.\n\\[\n84^2 + 64^2 + 4^2 + (-66)^2 + (-86)^2\n\\]\n\\[\n= 7056 + 4096 + 16 + 4356 + 7396\n= 22920\n\\]\n\n\nStep 2 - calculate the numerator\neach house is compared to its immediate neighbors.\nA and E have 1 neighbor, so their weight is 1.\nB, C, and D have 2 neighbors, so each neighbor gets a weight of 0.5.\n\\[\n\\begin{aligned}\nA &: 1(84)(64) = 5376 \\\\\nB &: 0.5(64)(84) + 0.5(64)(4) = 2816 \\\\\nC &: 0.5(4)(64) + 0.5(4)(-66) = -4 \\\\\nD &: 0.5(-66)(4) + 0.5(-66)(-86) = 2706 \\\\\nE &: 1(-86)(-66) = 5676\n\\end{aligned}\n\\]\nadd all the neighbor products.\n\\[\n5376 + 2816 - 4 + 2706 + 5676 = 16570\n\\]\n\n\nStep 3 - calculate Moran’s I\n\\[\nI = \\frac{16570}{22920}\n\\approx 0.723\n\\]\n\n\nInterpretation\nMoran’s I ≈ +0.72\nthis indicates positive spatial autocorrelation.\nhouses A and B both have large positive residuals, while D and E both have negative residuals.\nnearby houses are making similar prediction errors, so the model may be missing something about location.\nmain idea\npositive Moran’s I = similar residuals cluster together.\nnegative Moran’s I = neighboring residuals tend to be different.\nnear zero = little spatial autocorrelation.\nmain idea\nMoran’s I tells us whether prediction errors are spatially related instead of randomly distributed.\nif residuals cluster geographically, the model may be missing something about location."
   }
 ]
