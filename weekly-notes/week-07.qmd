@@ -1,5 +1,6 @@
 ---
-title: "week-07"
+title: "Week 7"
+date: "October 16, 2026"
 editor: visual
 ---
 
