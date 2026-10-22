@@ -15,7 +15,6 @@ website:
       - href: weekly-notes/index.qmd
         text: Weekly Notes
       - href: assignments/index.qmd
-        text: Assignments.qmd
         text: "Assignments"
     right:
       - icon: github
