@@ -1,0 +1,6 @@
+---
+title: "Week 8: LISA"
+
+---
+
+LISA: Local Indicator of Spatial Association
