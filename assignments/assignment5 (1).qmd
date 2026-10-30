@@ -104,8 +104,8 @@ Build every feature on `all_sales`, so training and test houses get identical fe
 
 ```{r}
 #| label: load
-raw_train <- read_csv("data/chicago_train.csv", show_col_types = FALSE)
-raw_test <- read_csv("data/chicago_test.csv", show_col_types = FALSE)
+raw_train <- read_csv("chicago_train.csv", show_col_types = FALSE)
+raw_test <- read_csv("chicago_test.csv", show_col_types = FALSE)
 
 all_sales <- bind_rows(
   raw_train %>% mutate(split = "train"),
